@@ -78,12 +78,13 @@ class Survivor { // Profile creation for survivors
         this.audio       = audio // character lines, optional
     }
 
-    // CURRENTLY WORKING ON SURVIVOR'S CHANCE OF HITTING OR MISSING THE INFECTED AND IF HIT, HOW MUCH DAMAGE. Have only coded firepower but not bombs
-
-    chanceOfHit  (infected) { // Chances survivor's attack hits or misses
+// ============================
+// chanceOfHit: Chances survivor's attack hits or misses
+// ============================
+    chanceOfHit  (infected) { 
         const weaponHits    = this.weapons.accuracy;
         // console.log("Chances survivor's attack hits or misses");
-        if(weaponHits > randomMath(1, 9)) {
+        if(weaponHits > randomMath(1, 6)) {
             // console.log("Survivors attack has landed!!");
             this.fireWeapon(infected);
         
@@ -92,45 +93,60 @@ class Survivor { // Profile creation for survivors
             infected.chanceOfAttack(this);
         }
     }
-
+// ============================
+// damageSurvivor: If survivor is hit, this removes health according to attack's damage
+// ============================
     damageSurvivor (infected, infectedDamage)  {
         this.health -= infectedDamage;
         console.log(`${this.name}'s health ${this.health}% from damageSurvivor function`);
 
-        if(this.health > 0) {
-            this.chanceOfHit(infected);
-        } else {
+        if(this.health > 0) { // If survivor survives, run what to do prompt
+            whatToDo();
+
+        } else if(this.health <= 0) { // Ask to restart when dying
             console.log("You died!");
-            return;
+            youDied();
         }
     }
 
-    healSelf (infected) {
-        let largeHealthPack = this.items[0].largePack.healthRegen;
-        let packOwned = this.items[0].largePack.isItOwned;
-        let pills = this.items[1].pills.healthRegen;
-        let pillsOwned = this.items[1].pills.isItOwned;
+    // ============================
+    // healSelf: Function to heal yourself when injured, can only heal ocne with pills & medpack
+    // ============================
+    healSelf (infected) { 
+        const heal = prompt("What to heal with", "Pills or Medpack"); // asks which health item to use
+        let medPack = this.items[0].largePack.healthRegen; // health pack
+        let medPackOwned = this.items[0].largePack.isItOwned; // true or false if you have a health pack
+        let pills = this.items[1].pills.healthRegen; // pills
+        let pillsOwned = this.items[1].pills.isItOwned; // true or false if you have pills
         console.log("You've healed yourself");
-        // console.log(largeHealthPack);
-        // console.log(pills);
-        // console.log(this.health);
-        console.log(this.items);
 
-        if(pills &&  pillsOwned === true) {
-            this.health += pills; 
-            this.items[1].pills.isItOwned = false;
-            console.log(this.health); 
-
-        } else if(largeHealthPack && packOwned === true) {
-            this.health += largeHealthPack;
-            this.items[0].largePack.isItOwned = false;
-            console.log(this.health);
+        if(this.health === 100) { // can't heal if you're at full health
+            alert("Your health is already full!");
+        } else {
+            if(heal.toLowerCase() === "pills" &&  pillsOwned === true) { // if you choose pills while injured this heals you
+                this.health += pills; 
+                this.items[1].pills.isItOwned = false;
+    
+            } else if(heal.toLowerCase() === "medpack" && medPackOwned === true) { // if you choose medpack while injured this heals you
+                this.health += medPack;
+                this.items[0].largePack.isItOwned = false;
+            } else if(pillsOwned === false || medPackOwned === false) { // if you're out of health items you're told you can't heal anymore
+                alert("You have no more!");
+                whatToDo();
+            } 
         }
+        if(this.health > 100) { // if healing goes over 100 this resets health back to 100 max
+            this.health = 100;
+        }
+        console.log(this.health); 
+        infected.chanceOfAttack(this); // launches infected's attack on survivor once healing is done
     }
-
+// ============================
+// fireWeapon: if you hit infected this while say so and launch the function to damage infected according to firepower level
+// ============================
     fireWeapon = (infected) => {
-        let weapon          = this.weapons.weapon;
-        let weaponDamage    = this.weapons.firepower;
+        let weapon          = this.weapons.weapon; // current weapon
+        let weaponDamage    = this.weapons.firepower; //curent weapon's damage
         console.log(`${this.name} has shot at ${infected.name} with the ${weapon} with ${weaponDamage} damage`);
         infected.takeDamage(this);
     }
@@ -159,7 +175,7 @@ class Infected { // Profile creation for infected
             this.attackHumans(survivor);
         } else {
             console.log("Infected hit has missed!");
-            survivor.chanceOfHit(this);
+            whatToDo();
         }
     }
 
@@ -173,7 +189,7 @@ class Infected { // Profile creation for infected
         let survivorHealth      = survivor.health; // survivor's health
         var dynamicAttack = this.infectedHit(); // current infect's attack 
 
-        console.log(`${survivor.name} is at ${survivorHealth} health`);
+        // console.log(`${survivor.name} is at ${survivorHealth} health`);
         console.log(`${this.name} has attacked with ${dynamicAttack[0]} with a damage of ${dynamicAttack[1]}`);
         survivor.damageSurvivor(this, dynamicAttack[1]);
     }
@@ -183,7 +199,7 @@ class Infected { // Profile creation for infected
 
         if(infectedsHealth > 0 ) { // If infected's health is over 0
             console.log(`${this.name} has survived the attack! with ${infectedsHealth} health left!`);
-            this.attackHumans(survivor);
+            this.chanceOfAttack(survivor);
 
         } else { // If infect's health is at or below 0, kill it
             console.log(`${this.name} is dead, remove from array`);
@@ -199,7 +215,8 @@ class Infected { // Profile creation for infected
     spawnInGame  (survivor)  { // 'Spawns' the infected to attack
         console.log(`${this.name} has spawned to attack ${survivor.name}!`);
         if(allInfectedListed.length > 0) {
-            this.chanceOfAttack(survivor);
+            whatToDo();
+            // this.chanceOfAttack(survivor);
         } else {
             console.log("Everybody's dead!");
         }
@@ -262,7 +279,7 @@ const smoker = new Infected ( // Smoker profile
 
 const commonInfected = new Infected ( // Common infected / the horde profile
     "The Horde",
-    randomMath(100, 600),
+    randomMath(100, 400),
     "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/horde/horde.jpg",
     infectedAttacks.theHorde
     );
@@ -294,7 +311,46 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // activeInfected().attackHumans(zoey);
 // zoey.healSelf();
 
-const startTheGame
+const startTheGame = () => {
+    alert("Hold out until the helicopter arrives!");
+    activeInfected().spawnInGame(zoey);
+}
+
+const youDied = () => {
+    const restart = prompt("Would you like to restart or quit?", " ");
+    if(restart.toLowerCase() === "restart") {
+        startTheGame();
+    } else if(restart.toLowerCase() === "quit") {
+        return;
+    } else {
+        alert("Please choose something");  
+    }
+}
+
+const whatToDo = () => {
+    const whatDo = prompt("What do you want to do?", "attack, heal, restart game, or quit game");
+    // console.log(whatDo);
+
+    if(whatDo.toLowerCase() === "attack") {
+        zoey.chanceOfHit(activeInfected());
+
+    } else if(whatDo.toLowerCase() === "heal") {
+        zoey.healSelf(activeInfected());
+
+    } else if(whatDo.toLowerCase() === "quit") {
+        console.log("QUIT GAME");
+        return;
+    } else if(whatDo.toLowerCase() === "restart game"){
+        startTheGame();
+
+    } else {
+        console.log("Please make a decision!");
+        whatToDo();
+    }
+
+}
+
+startTheGame();
 
 //////////////////////////////////////
 // LEFT4DEAD MINI GAME
