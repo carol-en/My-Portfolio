@@ -41,7 +41,7 @@ const infectedAttacks   = {  // Infected attacks with damage points
  //////////////////////////////////////////
  // Player Items, weapons, & actions
  //////////////////////////////////////////
- const playerWeapons     = [ // List of player weapons and stats
+ const playerWeapons = [ // List of player weapons and stats
     // Weapon name, how strong weapon is, how accurate /likely it is to hit
     { weapon: "M16 Assault Rifle", firepower: 135, accuracy: 7.5 },
     { weapon: "Pump Shotgun", firepower: 250, accuracy: 1.5 },
@@ -49,45 +49,20 @@ const infectedAttacks   = {  // Infected attacks with damage points
     { weapon: "Pistol", firepower: 76, accuracy: 6.5  }
 ];
 
-const playerItems       = [ 
-    // List of player items like health packs, if flightlight on, bombs. Each can only be used once except for flashlight
-    { healthPack: { // Item 1 & 2
-        largeHealthpack: { // Item 1: Large health pack, heals 100%
-            isItOwned: true, // Does player have one
-            healthRegen: 100 // How much it heals
-            },
-        pills: { // Item 2: Bottle of pills, heals 25%
-            isItOwned: true,
-            healthRegen: 25
-            }
+const healthPacks = [ 
+    { largePack: { // Item 1: Large health pack, heals 100%
+        isItOwned: true, // Does player have one
+        healthRegen: 100 // How much it heals
         } 
     },
-    { flashLight: { // Item 3: Flashlight, helps with accuracy
-        isItOn: true, // Is flashlight on
-        }
-    },
-
-    {  bombs: { // Item 4: Bombs
-        molotov: {
-            isItOwned: false, // Does player have one
-            firePower: 75, // How much damage it causes
-            accuracy:  randomMath(20, 30), // How accurate the throw is & likely to hit
-            },  
-        pipeBomb: {
-            isItOwned: false,
-            firePower: 85,
-            accuracy:  randomMath(15, 75),
-            }
+    { pills: { // Item 2: Bottle of pills, heals 25%
+        isItOwned: true,
+        healthRegen: 25
         }
     }
 ];
 
-const playerActions     =  { // What can the player do?
-    crouch: false, // Crouch down
-    turnFlashlightOnOff: true,  // Turn their flashlight on and off
-    throwBomb: false, // Throw bomb if they have one
-    fireWeapon: false // Fire weapon
- };
+
 
 // ============================
  // Survivor Class
@@ -105,39 +80,59 @@ class Survivor { // Profile creation for survivors
 
     // CURRENTLY WORKING ON SURVIVOR'S CHANCE OF HITTING OR MISSING THE INFECTED AND IF HIT, HOW MUCH DAMAGE. Have only coded firepower but not bombs
 
-    chanceOfHit = (infected) => { // Chances survivor's attack hits or misses
+    chanceOfHit  (infected) { // Chances survivor's attack hits or misses
         const weaponHits    = this.weapons.accuracy;
         // console.log("Chances survivor's attack hits or misses");
         if(weaponHits > randomMath(1, 9)) {
-            console.log("Survivors attack has landed!!");
-            infected.takeDamage(this);
+            // console.log("Survivors attack has landed!!");
+            this.fireWeapon(infected);
+        
         } else {
             console.log("Survivors attack has missed!");
             infected.chanceOfAttack(this);
         }
     }
 
-    healSelf = () => {
-        console.log("You've healed yourself");
+    damageSurvivor (infected, infectedDamage)  {
+        this.health -= infectedDamage;
+        console.log(`${this.name}'s health ${this.health}% from damageSurvivor function`);
+
+        if(this.health > 0) {
+            this.chanceOfHit(infected);
+        } else {
+            console.log("You died!");
+            return;
+        }
     }
 
-    // throwBomb = () => {
-    //     console.log("A bomb has been thrown");
-    // }
-    
-    // crouch = () => {
-    //     console.log("You've crouched down");
-    // }
+    healSelf (infected) {
+        let largeHealthPack = this.items[0].largePack.healthRegen;
+        let packOwned = this.items[0].largePack.isItOwned;
+        let pills = this.items[1].pills.healthRegen;
+        let pillsOwned = this.items[1].pills.isItOwned;
+        console.log("You've healed yourself");
+        // console.log(largeHealthPack);
+        // console.log(pills);
+        // console.log(this.health);
+        console.log(this.items);
 
-    // flashlightToggle = () => {
-    //     console.log("Turn flashlight on and off");
-    // }
+        if(pills &&  pillsOwned === true) {
+            this.health += pills; 
+            this.items[1].pills.isItOwned = false;
+            console.log(this.health); 
+
+        } else if(largeHealthPack && packOwned === true) {
+            this.health += largeHealthPack;
+            this.items[0].largePack.isItOwned = false;
+            console.log(this.health);
+        }
+    }
 
     fireWeapon = (infected) => {
         let weapon          = this.weapons.weapon;
         let weaponDamage    = this.weapons.firepower;
         console.log(`${this.name} has shot at ${infected.name} with the ${weapon} with ${weaponDamage} damage`);
-        this.chanceOfHit(infected);
+        infected.takeDamage(this);
     }
 }
 
@@ -157,45 +152,56 @@ class Infected { // Profile creation for infected
     }
 
     // Decides if an infected's attack hits or misses
-    chanceOfAttack = (survivor) => { // Param 'survivor' passes survivor profile
+    chanceOfAttack  (survivor)  { // Param 'survivor' passes survivor profile
         let infectedHits        = this.attack.hitChance;
         if(infectedHits > 3 ) {
             // console.log("Infected hit has landed");
             this.attackHumans(survivor);
         } else {
             console.log("Infected hit has missed!");
+            survivor.chanceOfHit(this);
         }
     }
 
+    infectedHit () {
+        let attack = shuffleValues(this.attack);
+        return attack;
+    }
+
     // If infected attack hits, damage is taken to survivor depending on type of infected and type of attack
-    attackHumans = (survivor) => {
+    attackHumans  (survivor) {
         let survivorHealth      = survivor.health; // survivor's health
-        let dynamicAttack       = shuffleValues(this.attack); // current infect's attack 
+        var dynamicAttack = this.infectedHit(); // current infect's attack 
 
         console.log(`${survivor.name} is at ${survivorHealth} health`);
         console.log(`${this.name} has attacked with ${dynamicAttack[0]} with a damage of ${dynamicAttack[1]}`);
-        survivorHealth -= dynamicAttack[1];
-        console.log(`${survivor.name} is now at ${survivorHealth} health`);;
+        survivor.damageSurvivor(this, dynamicAttack[1]);
     }
-    takeDamage = (survivor) => { // Infected takes damage from survivor's attack
-        let infectedsHealth         = this.health -= survivor.weapons.firepower
-        if(this.health > 0 ) { // If infected's health is over 0
+    takeDamage (survivor) { // Infected takes damage from survivor's attack
+        this.health -= survivor.weapons.firepower;
+        let infectedsHealth = this.health;
+
+        if(infectedsHealth > 0 ) { // If infected's health is over 0
             console.log(`${this.name} has survived the attack! with ${infectedsHealth} health left!`);
+            this.attackHumans(survivor);
 
         } else { // If infect's health is at or below 0, kill it
             console.log(`${this.name} is dead, remove from array`);
+            allInfectedListed.shift();
             if(allInfectedListed.length > 0) { // If there's still infected to fight, remove newly killed infected from array
-                console.log(allInfectedListed.shift());
-                console.log(allInfectedListed);
+                activeInfected().spawnInGame(zoey);
+
             } else { // If there are no more infected to kill, you've won  the game!
                 console.log("Game won!");
             }
         }
     }
-    spawnInGame = (survivor) => {
+    spawnInGame  (survivor)  { // 'Spawns' the infected to attack
         console.log(`${this.name} has spawned to attack ${survivor.name}!`);
         if(allInfectedListed.length > 0) {
             this.chanceOfAttack(survivor);
+        } else {
+            console.log("Everybody's dead!");
         }
     }
 }
@@ -219,8 +225,9 @@ class IncreaseHorde { // Creates and groups all infected for game
 //////////////////////////////////////////
 
 const zoey = new Survivor ( // Zoey survivor profile
-    "Zoey", 100,
-    playerItems,
+    "Zoey", 
+    100,
+    healthPacks,
     playerWeapons[randomMath(0, 4)],
     "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/survivors/zoey/zoey_3.jpg"
 );
@@ -263,10 +270,10 @@ const commonInfected = new Infected ( // Common infected / the horde profile
     const theHorde              = new IncreaseHorde(commonInfected); // pushes common infected for multiplication purposes
     const allHordes             = theHorde.spawnHordes(); // creates array of 4 total hordes
     const allSpecialInfected    = [ tank, witch, hunter, smoker ] // array of special infected
-    const mergeAllInfected      = shuffle([...allHordes, ...allSpecialInfected]); // Merges both horde and special infected into 1 array and randomly shuffles them to make game events random every time variable is called.
-    const allInfectedListed     = mergeAllInfected; // Completed & full infected array; 
-    const activeInfected        = allInfectedListed[0]; // Active infected attacking
-
+    const allInfectedListed     = shuffle([...allHordes, ...allSpecialInfected]); // Merges both horde and special infected into 1 array and randomly shuffles them to make game events random every time variable is called.
+    const activeInfected        = () => { // current infected attacking
+        return allInfectedListed[0];
+    } 
 
 // console.log(theHorde.infected.name);
 // theHorde.spawnHordes();
@@ -278,8 +285,16 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // console.log(allInfected[2].name);
 // activeInfected.takeDamage(zoey);
 // activeInfected.spawnInGame(zoey);
-zoey.fireWeapon(activeInfected);
+// zoey.fireWeapon(activeInfected);
+// zoey.chanceOfHit(activeInfected);
+// zoey.damageSurvivor(activeInfected);
+// activeInfected.takeDamage(zoey);
+// activeInfected().spawnInGame(zoey);
+// zoey.damageSurvivor(activeInfected());
+// activeInfected().attackHumans(zoey);
+// zoey.healSelf();
 
+const startTheGame
 
 //////////////////////////////////////
 // LEFT4DEAD MINI GAME
