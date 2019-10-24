@@ -4,51 +4,72 @@ $(() => {
     // console.log($);
 });
 
-const randomMath = (num, num2) => { // Function for random variables
-    return Math.floor(Math.random() * (num + num2));
-}
+// ============================
+// randomMoves: Random / variable functions for dynamic attacks
+// ============================
 
-const shuffle = (array) => { // Randomly shuffles arrays, used to randomly shuffle game events & what infected will spawn and when
-    let arr = array;
+// ============================
+// numbers: used to get random numbers
+// ============================
+const randomMoves = {
+    numbers: (num, num2) => {
+        return Math.floor(Math.random() * (num + num2));
+    },
+// ============================
+// shuffle: scrambles elements in an array
+// ============================
+    shuffle: (array) => {
+        let arr = array;
     
-    for(let i = arr.length - 1; i > 0; i--) {
-        let randomIndex = Math.floor(Math.random() * (i + 1));
-        let itemAtIndex = arr[randomIndex];
-
-        arr[randomIndex] = arr[i];
-        arr[i] = itemAtIndex;
-    } return arr;
+        for(let i = arr.length - 1; i > 0; i--) {
+            let randomIndex = Math.floor(Math.random() * (i + 1));
+            let itemAtIndex = arr[randomIndex];
+    
+            arr[randomIndex] = arr[i];
+            arr[i] = itemAtIndex;
+        } return arr;
+    },
+// ============================
+// shuffleValues: randomly chooses keys & values in an object
+// ============================
+    shuffleValues: (values) => {
+        const list = values;
+        const value = Object.entries(list);
+        const randomIndex = Math.floor(Math.random() * (value.length - 1));
+        const item = value[randomIndex];
+        return item;
+    }
 }
-const shuffleValues = (values) => { // Randomizes values in objects
-    const list = values;
-    const value = Object.entries(list);
-    const randomIndex = Math.floor(Math.random() * (value.length - 1));
-    const item = value[randomIndex];
-    return item;
-}
 
- //////////////////////////////////////////
+ // ============================
  // Infected attacks, type, and how much damage done
-  //////////////////////////////////////////
-const infectedAttacks   = {  // Infected attacks with damage points
-    theTank: { punch: 30, throw: 35, hitChance: randomMath(4,9) },
-    theWitch: { scratch: 33, hitChance: randomMath(9, 10) },
-    theSmoker: { hit: 15, ensnare: 20, hitChance: randomMath(3, 6) },
-    theHunter: { scratch: 10, pounce: 25, hitChance: randomMath(3, 6) },
-    theHorde: { infectedAttacks: randomMath(10, 75), hitChance: randomMath(1, 9) }
+  // ============================
+const infectedAttacks   = {  
+    theTank: { punch: 30, throw: 35, hitChance: randomMoves.numbers(4,9) },
+    theWitch: { scratch: 33, hitChance: randomMoves.numbers(9, 10) },
+    theSmoker: { hit: 15, ensnare: 20, hitChance: randomMoves.numbers(3, 6) },
+    theHunter: { scratch: 10, pounce: 25, hitChance: randomMoves.numbers(3, 6) },
+    theHorde: { infectedAttacks: randomMoves.numbers(10, 75), hitChance: randomMoves.numbers(1, 9) }
  };
 
- //////////////////////////////////////////
- // Player Items, weapons, & actions
- //////////////////////////////////////////
- const playerWeapons = [ // List of player weapons and stats
-    // Weapon name, how strong weapon is, how accurate /likely it is to hit
+ // ============================
+ // Player Items & weapons
+// ============================
+
+// ============================
+// playerWeapons:  // List of player weapons and stats
+// Weapon name, how strong weapon is, how accurate /likely it is to hit
+// ============================
+ const playerWeapons = [ 
     { weapon: "M16 Assault Rifle", firepower: 135, accuracy: 7.5 },
     { weapon: "Pump Shotgun", firepower: 250, accuracy: 1.5 },
     { weapon: "Hunting Rifle", firepower: 150, accuracy: 8  },
     { weapon: "Pistol", firepower: 76, accuracy: 6.5  }
 ];
 
+// ============================
+// healthPacks: Health items survivor carries to heal self
+// ============================
 const healthPacks = [ 
     { largePack: { // Item 1: Large health pack, heals 100%
         isItOwned: true, // Does player have one
@@ -84,7 +105,7 @@ class Survivor { // Profile creation for survivors
     chanceOfHit  (infected) { 
         const weaponHits    = this.weapons.accuracy;
         // console.log("Chances survivor's attack hits or misses");
-        if(weaponHits > randomMath(1, 6)) {
+        if(weaponHits > randomMoves.numbers(1, 3)) {
             // console.log("Survivors attack has landed!!");
             this.fireWeapon(infected);
         
@@ -93,6 +114,7 @@ class Survivor { // Profile creation for survivors
             infected.chanceOfAttack(this);
         }
     }
+
 // ============================
 // damageSurvivor: If survivor is hit, this removes health according to attack's damage
 // ============================
@@ -139,8 +161,9 @@ class Survivor { // Profile creation for survivors
             this.health = 100;
         }
         console.log(this.health); 
-        infected.chanceOfAttack(this); // launches infected's attack on survivor once healing is done
+        infected.chanceOfAttack(this); // launches infected's attack attempt on survivor once healing is done
     }
+
 // ============================
 // fireWeapon: if you hit infected this while say so and launch the function to damage infected according to firepower level
 // ============================
@@ -155,6 +178,7 @@ class Survivor { // Profile creation for survivors
 // ============================
 // Infected Class
 // Creates class for all infected as well as methods infected will use
+// ----------------------
 // IncreaseHorde Class
 // Takes the horde profile and makes 3 more dupelicates for event purposes!
 // ============================
@@ -166,8 +190,9 @@ class Infected { // Profile creation for infected
         this.attack    = attack // infected attacks
         this.audio     = audio // infected sounds and music, optional
     }
-
-    // Decides if an infected's attack hits or misses
+// ============================
+// chanceOfAttack: Decides if an infected's attack hits or misses
+// ============================
     chanceOfAttack  (survivor)  { // Param 'survivor' passes survivor profile
         let infectedHits        = this.attack.hitChance;
         if(infectedHits > 3 ) {
@@ -179,12 +204,17 @@ class Infected { // Profile creation for infected
         }
     }
 
+// ============================
+// infectedHit: Decides randomy which attack special infected will use
+// ============================
     infectedHit () {
-        let attack = shuffleValues(this.attack);
+        let attack = randomMoves.shuffleValues(this.attack);
         return attack;
     }
 
-    // If infected attack hits, damage is taken to survivor depending on type of infected and type of attack
+    // ============================
+    // attackHumans: If infected attack hits, damage is taken to survivor depending on type of infected and type of attack
+    // ============================
     attackHumans  (survivor) {
         let survivorHealth      = survivor.health; // survivor's health
         var dynamicAttack = this.infectedHit(); // current infect's attack 
@@ -193,7 +223,11 @@ class Infected { // Profile creation for infected
         console.log(`${this.name} has attacked with ${dynamicAttack[0]} with a damage of ${dynamicAttack[1]}`);
         survivor.damageSurvivor(this, dynamicAttack[1]);
     }
-    takeDamage (survivor) { // Infected takes damage from survivor's attack
+
+    // ============================
+    // takeDamage: // Infected takes damage from survivor's attack
+    // ============================
+    takeDamage (survivor) { 
         this.health -= survivor.weapons.firepower;
         let infectedsHealth = this.health;
 
@@ -212,6 +246,10 @@ class Infected { // Profile creation for infected
             }
         }
     }
+
+    // ============================
+    // spawnInGame: // 'Spawns' the infected to attack, the first move & event of the game
+    // ============================
     spawnInGame  (survivor)  { // 'Spawns' the infected to attack
         console.log(`${this.name} has spawned to attack ${survivor.name}!`);
         if(allInfectedListed.length > 0) {
@@ -223,12 +261,18 @@ class Infected { // Profile creation for infected
     }
 }
 
+// ============================
+// IncreaseHorde: class that takes in original horde profile and duplicates it
+// ============================
 class IncreaseHorde { // Creates and groups all infected for game
     constructor(theInfected) {
         this.infected       = theInfected // Grabs the common infected to create horde
         this.hordeWaves     = [] // Where horde waves will live in array 
     }
 
+    // ============================
+    // spawnHordes:  duplicates the horde 3 times so there's 4 total
+    // ============================
     spawnHordes = () => { // creates 4 total waves of the horde to be fought
         let multiplydHorde = this.infected;
         for(let i = 1; i <= 4; i++) {
@@ -237,15 +281,15 @@ class IncreaseHorde { // Creates and groups all infected for game
     }
 }
 
-//////////////////////////////////////////
+// ============================
 // Player and infected profiles
-//////////////////////////////////////////
+// ============================
 
 const zoey = new Survivor ( // Zoey survivor profile
     "Zoey", 
     100,
     healthPacks,
-    playerWeapons[randomMath(0, 4)],
+    playerWeapons[randomMoves.numbers(0, 4)],
     "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/survivors/zoey/zoey_3.jpg"
 );
 
@@ -279,15 +323,18 @@ const smoker = new Infected ( // Smoker profile
 
 const commonInfected = new Infected ( // Common infected / the horde profile
     "The Horde",
-    randomMath(100, 400),
+    randomMoves.numbers(100, 400),
     "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/horde/horde.jpg",
     infectedAttacks.theHorde
     );
 
+    // ============================
+    // Creates horde clones, special infected array is created, then all merged into one infected array to be fought against
+    // ============================
     const theHorde              = new IncreaseHorde(commonInfected); // pushes common infected for multiplication purposes
     const allHordes             = theHorde.spawnHordes(); // creates array of 4 total hordes
     const allSpecialInfected    = [ tank, witch, hunter, smoker ] // array of special infected
-    const allInfectedListed     = shuffle([...allHordes, ...allSpecialInfected]); // Merges both horde and special infected into 1 array and randomly shuffles them to make game events random every time variable is called.
+    const allInfectedListed     = randomMoves.shuffle([...allHordes, ...allSpecialInfected]); // Merges both horde and special infected into 1 array and randomly shuffles them to make game events random every time variable is called.
     const activeInfected        = () => { // current infected attacking
         return allInfectedListed[0];
     } 
@@ -311,6 +358,10 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // activeInfected().attackHumans(zoey);
 // zoey.healSelf();
 
+
+// ============================
+// Game actions and inputs
+// ============================
 const startTheGame = () => {
     alert("Hold out until the helicopter arrives!");
     activeInfected().spawnInGame(zoey);
@@ -319,7 +370,7 @@ const startTheGame = () => {
 const youDied = () => {
     const restart = prompt("Would you like to restart or quit?", " ");
     if(restart.toLowerCase() === "restart") {
-        startTheGame();
+        location.reload(true);
     } else if(restart.toLowerCase() === "quit") {
         return;
     } else {
@@ -341,8 +392,7 @@ const whatToDo = () => {
         console.log("QUIT GAME");
         return;
     } else if(whatDo.toLowerCase() === "restart game"){
-        startTheGame();
-
+        location.reload(true);
     } else {
         console.log("Please make a decision!");
         whatToDo();
