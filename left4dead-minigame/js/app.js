@@ -71,9 +71,9 @@ const infectedAttacks   = {
 // healthPacks: Health items survivor carries to heal self
 // ============================
 const healthPacks = [ 
-    { largePack: { // Item 1: Large health pack, heals 100%
+    { largePack: { // Item 1: Large health pack, heals 80%
         isItOwned: true, // Does player have one
-        healthRegen: 100 // How much it heals
+        healthRegen: 80 // How much it heals
         } 
     },
     { pills: { // Item 2: Bottle of pills, heals 25%
@@ -251,10 +251,13 @@ class Infected { // Profile creation for infected
     // spawnInGame: // 'Spawns' the infected to attack, the first move & event of the game
     // ============================
     spawnInGame  (survivor)  { // 'Spawns' the infected to attack
+
+    $(() => {
+        const $infectedPhoto = $("<img>").attr({"src": activeInfected().photo, "alt": "Image of " + activeInfected().name}).appendTo(".infected");
+    });
         console.log(`${this.name} has spawned to attack ${survivor.name}!`);
         if(allInfectedListed.length > 0) {
             whatToDo();
-            // this.chanceOfAttack(survivor);
         } else {
             console.log("Everybody's dead!");
         }
@@ -290,41 +293,41 @@ const zoey = new Survivor ( // Zoey survivor profile
     100,
     healthPacks,
     playerWeapons[randomMoves.numbers(0, 4)],
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/survivors/zoey/zoey_3.jpg"
+    "images/survivors/zoey/zoey_3.jpg"
 );
 
 const tank = new Infected ( // Tank profile
     "The Tank",
     600,
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/tank/tank.jpg",
+    "images/infected/tank/tank.jpg",
     infectedAttacks.theTank
 );
 
 const witch = new Infected ( // Witch profile
     "The Witch",
     400,
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/witch/witch.png",
+    "images/infected/witch/witch.png",
     infectedAttacks.theWitch
 );
 
 const hunter = new Infected ( // Hunter profile
     "The Hunter",
     250,
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/hunter/hunter_2.jpg",
+    "images/infected/hunter/hunter_2.jpg",
     infectedAttacks.theHunter
 );
 
 const smoker = new Infected ( // Smoker profile
     "The Smoker",
     250,
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/smoker/smoker_2.gif",
+    "images/infected/smoker/smoker_2.gif",
     infectedAttacks.theSmoker
 );
 
 const commonInfected = new Infected ( // Common infected / the horde profile
     "The Horde",
     randomMoves.numbers(100, 400),
-    "/Users/carolinenolasco/Desktop/Coding Courses/General Assembly/Courses/01 Flex Remote/Unit 1 Project/images/infected/horde/horde.jpg",
+    "images/infected/horde/horde.jpg",
     infectedAttacks.theHorde
     );
 
@@ -359,12 +362,25 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // zoey.healSelf();
 
 
+
+
 // ============================
 // Game actions and inputs
 // ============================
 const startTheGame = () => {
-    alert("Hold out until the helicopter arrives!");
-    activeInfected().spawnInGame(zoey);
+    $( () => {
+        const $playerPhoto = $("<img>").attr({"src": zoey.photo, "alt": "Image of " + zoey.name}).appendTo(".player");
+        const $gameEvents = $(".game-events").prepend("<p>Hold out until the helicopter arrives!</p>");
+
+        $("#start-events").on("click", () => {
+            $("#start-events").remove();
+            // alert("Clicked");
+            activeInfected().spawnInGame(zoey);
+        });
+    });
+
+    // alert("Hold out until the helicopter arrives!");
+    // activeInfected().spawnInGame(zoey);
 }
 
 const youDied = () => {
@@ -400,7 +416,7 @@ const whatToDo = () => {
 
 }
 
-startTheGame();
+// startTheGame();
 
 //////////////////////////////////////
 // LEFT4DEAD MINI GAME

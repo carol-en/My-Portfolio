@@ -8,24 +8,68 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script> 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nosifer|Roboto+Mono:300,400,700&display=swap" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <main>
-      <div class="player">
+      <section class="player">
         <h1>Player</h1>
-        <img src="images/survivors/zoey/zoey_3.jpg" alt="Zoey" class="player">
-        <span><strong>Actions</strong></span>
-      </div>
-      <div class="infected">
-        <h1>Infected</h1>
-        <img src="images/infected/witch/witch.png" alt="The Witch" class="infected">
-      </div>
-      <a href="index.html" title="Quit">Quit</a>
-    </main>
-  </div>
+        <img src="images/survivors/zoey/zoey_3.jpg" alt="Zoey">
+        <aside class="event-boxes" id="survivor-events">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In porro harum fugit architecto eligendi, neque adipisci necessitatibus numquam error quas quam eius incidunt tempora natus atque esse molestiae, ea alias.</p>
+        </aside>
+      </section>
 
+      <section class="infected">
+        <h1>Infected</h1>
+        <img src="images/infected/witch/witch.png" alt="The Witch">
+        <aside class="event-boxes" id="infected-events">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In porro harum fugit architecto eligendi, neque adipisci necessitatibus numquam error quas quam eius incidunt tempora natus atque esse molestiae, ea alias.</p>
+        </aside>
+      </section>
+    </main>
+    <section id="player-options">
+        <aside id="player-health">
+            <i class="fa fa-heartbeat"></i> 100%
+        </aside>
+
+        <aside id="player-actions">
+          <i class="fa fa-crosshairs" aria-hidden="true" title="Fire"> <span>Fire</span></i> 
+          <i class="fa fa-medkit" aria-hidden="true" title="Heal Self"> <span>Heal</span></i> 
+          <i class="fa fa-stop-circle" aria-hidden="true" title="Quit Game"> <span>Quit Game</span></i> 
+          <i class="fa fa-play-circle" aria-hidden="true" title="Restart"> <span>Restart</span></i>
+        </div>
+      </aside>
+  </div>
+  <!-- <section class="pop-ups event-boxes" id="rooftop-call">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit nostrum, blanditiis eveniet distinctio illum id iusto maiores inventore, ipsa ab consequatur optio illo commodi quas molestias in. Animi odio amet labore voluptate repudiandae maiores fuga beatae, provident voluptas porro vitae incidunt optio consequuntur quibusdam inventore voluptatem ab! Fugit, dolorum in.</p>
+      <button id="start-events">Okay</button>
+  </section> -->
+
+  <section class="pop-ups event-boxes" id="heal-options">
+    <div class="cancel">X</div>
+    <h2>Heal Zoey</h2>
+    <p>You only carry one of each and <strong>ONCE</strong> used there is no replacement, use carefully!</p>
+    <aside id="healing-items">
+      <span class="medpack">
+          <i class="fa fa-first-aid" aria-hidden="true"></i>
+          <p>
+            medkit<br>
+            heals: 80%
+          </p>
+      </span>
+      <span class="pills">
+          <i class="fa fa-prescription-bottle-alt" aria-hidden="true"></i>
+          <p>
+            pills<br>
+            heals: 25%
+          </p>
+      </span>
+    </aside>
+  </section>
     
     <script src="js/app.js"></script>
 </body>
