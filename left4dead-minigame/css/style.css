@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    margin: 50px auto 0;
+    margin: 0 auto;
     min-width: 1000px;
     max-width: 100%;
     background: #000;
@@ -32,13 +32,21 @@ main {
     justify-content: space-between;
     align-items: stretch;
     margin: 0 auto;
+    width: 100%;
+    background: rgb(53,83,14);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(53,83,14,1)), color-stop(77%, rgba(0,0,0,1)));
+    background: -o-linear-gradient(top, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
+    background: linear-gradient(180deg, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
 }
 
 h1 {
     font-family: 'Nosifer', cursive;
     font-size: 3em;
     text-align: center;
-    color: rgba(255, 0, 0, 0.892);
+    /* color: rgba(255, 0, 0, 0.892); */
+    background: -webkit-linear-gradient(#ffffff, #ff1212);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin: 0;
     padding: 0;
 }
@@ -52,21 +60,8 @@ h2 {
 }
 
 .player, .infected {
-    background: #040404;
     flex-basis: 50%;
     position: relative;
-}
-
-.player {
-    -webkit-border-radius: 22px 0px 0px 0px;
-    -moz-border-radius: 22px 0px 0px 0px;
-    border-radius: 22px 0px 0px 0px;
-}
-
-.infected {
-    -webkit-border-radius: 0px 22px 0px 0px;
-    -moz-border-radius: 0px 22px 0px 0px;
-    border-radius: 0px 22px 0px 0px;
 }
 
 .event-boxes {
@@ -81,12 +76,19 @@ h2 {
     color: #c4c4c4;
 }
 
+#rooftop-call {
+    display: none;
+}
+
+#heal-options {
+    display: none;
+}
+
 .pop-ups {
     width: 60%;
     position: absolute;
     top: 30%;
     left: 20%;
-    /* display: none; */
     -webkit-transition: all 0.5s;    
     -o-transition: all 0.5s;    
     transition: all 0.5s;
@@ -186,18 +188,53 @@ h2 {
 
 #player-health {
     color:#fff;
-    background: #ff2c2c;
     border-radius: 5px;
-    padding: 10px;
     -webkit-transition: all .2s;
     -o-transition: all .2s;
     transition: all .2s;
 }
-#player-health:hover {
-    -webkit-transform: scale(1.25);
-    -ms-transform: scale(1.25);
-    transform: scale(1.10);
+.at-100-percent {
+    background: #2cff4c;
+    width: 300px;
+    padding: 10px;
 }
+.at-50-percent {
+    background: #e6c400;
+    width: 200px;
+    padding: 15px;
+    font-size: 0.70em;
+}
+
+.at-15-percent {
+    background: #ff1515;
+    width: 100px;
+    padding: 15px;
+    font-size: 0.60em;
+}
+
+#player-weapon:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+#player-weapon {
+    color: #fff;
+    font-size: 1em;
+    text-align: right;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+/* #player-weapon i.gi {
+} */
+#player-weapon span {
+    font-size: .50em;
+    font-family: 'Govicons';
+    text-transform: uppercase;
+    font-weight: 400;
+}
+#player-weapon p { font-size: .40em; padding: 0; margin: 0;}
 
 #player-actions {  
     color: #fff;

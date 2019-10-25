@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script> 
+  <link rel="stylesheet" href="https://unpkg.com/govicons@latest/css/govicons.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nosifer|Roboto+Mono:300,400,700&display=swap" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
@@ -31,9 +32,15 @@
         </aside>
       </section>
     </main>
-    <section id="player-options">
-        <aside id="player-health">
+    <section  id="player-options">
+        <aside id="player-health" class="at-100-percent">
             <i class="fa fa-heartbeat"></i> 100%
+        </aside>
+
+        <aside id="player-weapon">
+          <!-- <i class="fa fa-exclamation" aria-hidden="true" title="Current Weapons"> <span>Shotgun</span></i>  -->
+           <i class="gi gi-ammo"></i> <span>Shotgun</span>
+           <p>250% damage</p>
         </aside>
 
         <aside id="player-actions">
@@ -44,10 +51,10 @@
         </div>
       </aside>
   </div>
-  <!-- <section class="pop-ups event-boxes" id="rooftop-call">
+  <section class="pop-ups event-boxes" id="rooftop-call">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit nostrum, blanditiis eveniet distinctio illum id iusto maiores inventore, ipsa ab consequatur optio illo commodi quas molestias in. Animi odio amet labore voluptate repudiandae maiores fuga beatae, provident voluptas porro vitae incidunt optio consequuntur quibusdam inventore voluptatem ab! Fugit, dolorum in.</p>
       <button id="start-events">Okay</button>
-  </section> -->
+  </section>
 
   <section class="pop-ups event-boxes" id="heal-options">
     <div class="cancel">X</div>
