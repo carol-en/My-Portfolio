@@ -5,6 +5,58 @@ $(() => {
 });
 
 // ============================
+// Game actions and inputs
+// ============================
+const startTheGame = () => {
+    $( () => {
+        const $playerPhoto = $("<img>").attr({"src": zoey.photo, "alt": "Image of " + zoey.name}).appendTo(".player");
+        const $gameEvents = $(".game-events").prepend("<p>Hold out until the helicopter arrives!</p>");
+
+        $("#start-events").on("click", () => {
+            $("#start-events").remove();
+            // alert("Clicked");
+            activeInfected().spawnInGame(zoey);
+        });
+    });
+
+    // alert("Hold out until the helicopter arrives!");
+    // activeInfected().spawnInGame(zoey);
+}
+
+const youDied = () => {
+    const restart = prompt("Would you like to restart or quit?", " ");
+    if(restart.toLowerCase() === "restart") {
+        location.reload(true);
+    } else if(restart.toLowerCase() === "quit") {
+        return;
+    } else {
+        alert("Please choose something");  
+    }
+}
+
+const whatToDo = () => {
+    const whatDo = prompt("What do you want to do?", "attack, heal, restart game, or quit game");
+    // console.log(whatDo);
+
+    if(whatDo.toLowerCase() === "attack") {
+        zoey.chanceOfHit(activeInfected());
+
+    } else if(whatDo.toLowerCase() === "heal") {
+        zoey.healSelf(activeInfected());
+
+    } else if(whatDo.toLowerCase() === "quit") {
+        console.log("QUIT GAME");
+        return;
+    } else if(whatDo.toLowerCase() === "restart game"){
+        location.reload(true);
+    } else {
+        console.log("Please make a decision!");
+        whatToDo();
+    }
+
+}
+
+// ============================
 // randomMoves: Random / variable functions for dynamic attacks
 // ============================
 
@@ -102,7 +154,7 @@ class Survivor { // Profile creation for survivors
 // ============================
 // chanceOfHit: Chances survivor's attack hits or misses
 // ============================
-    chanceOfHit  (infected) { 
+    chanceOfHit(infected) { 
         const weaponHits    = this.weapons.accuracy;
         // console.log("Chances survivor's attack hits or misses");
         if(weaponHits > randomMoves.numbers(1, 3)) {
@@ -118,7 +170,7 @@ class Survivor { // Profile creation for survivors
 // ============================
 // damageSurvivor: If survivor is hit, this removes health according to attack's damage
 // ============================
-    damageSurvivor (infected, infectedDamage)  {
+    damageSurvivor(infected, infectedDamage)  {
         this.health -= infectedDamage;
         console.log(`${this.name}'s health ${this.health}% from damageSurvivor function`);
 
@@ -134,7 +186,7 @@ class Survivor { // Profile creation for survivors
     // ============================
     // healSelf: Function to heal yourself when injured, can only heal ocne with pills & medpack
     // ============================
-    healSelf (infected) { 
+    healSelf(infected) { 
         const heal = prompt("What to heal with", "Pills or Medpack"); // asks which health item to use
         let medPack = this.items[0].largePack.healthRegen; // health pack
         let medPackOwned = this.items[0].largePack.isItOwned; // true or false if you have a health pack
@@ -167,7 +219,7 @@ class Survivor { // Profile creation for survivors
 // ============================
 // fireWeapon: if you hit infected this while say so and launch the function to damage infected according to firepower level
 // ============================
-    fireWeapon = (infected) => {
+    fireWeapon(infected) {
         let weapon          = this.weapons.weapon; // current weapon
         let weaponDamage    = this.weapons.firepower; //curent weapon's damage
         console.log(`${this.name} has shot at ${infected.name} with the ${weapon} with ${weaponDamage} damage`);
@@ -193,7 +245,7 @@ class Infected { // Profile creation for infected
 // ============================
 // chanceOfAttack: Decides if an infected's attack hits or misses
 // ============================
-    chanceOfAttack  (survivor)  { // Param 'survivor' passes survivor profile
+    chanceOfAttack(survivor)  { // Param 'survivor' passes survivor profile
         let infectedHits        = this.attack.hitChance;
         if(infectedHits > 3 ) {
             // console.log("Infected hit has landed");
@@ -207,7 +259,7 @@ class Infected { // Profile creation for infected
 // ============================
 // infectedHit: Decides randomy which attack special infected will use
 // ============================
-    infectedHit () {
+    infectedHit() {
         let attack = randomMoves.shuffleValues(this.attack);
         return attack;
     }
@@ -215,7 +267,7 @@ class Infected { // Profile creation for infected
     // ============================
     // attackHumans: If infected attack hits, damage is taken to survivor depending on type of infected and type of attack
     // ============================
-    attackHumans  (survivor) {
+    attackHumans(survivor) {
         let survivorHealth      = survivor.health; // survivor's health
         var dynamicAttack = this.infectedHit(); // current infect's attack 
 
@@ -227,7 +279,7 @@ class Infected { // Profile creation for infected
     // ============================
     // takeDamage: // Infected takes damage from survivor's attack
     // ============================
-    takeDamage (survivor) { 
+    takeDamage(survivor) { 
         this.health -= survivor.weapons.firepower;
         let infectedsHealth = this.health;
 
@@ -250,7 +302,7 @@ class Infected { // Profile creation for infected
     // ============================
     // spawnInGame: // 'Spawns' the infected to attack, the first move & event of the game
     // ============================
-    spawnInGame  (survivor)  { // 'Spawns' the infected to attack
+    spawnInGame(survivor)  { // 'Spawns' the infected to attack
 
     $(() => {
         const $infectedPhoto = $("<img>").attr({"src": activeInfected().photo, "alt": "Image of " + activeInfected().name}).appendTo(".infected");
@@ -276,7 +328,7 @@ class IncreaseHorde { // Creates and groups all infected for game
     // ============================
     // spawnHordes:  duplicates the horde 3 times so there's 4 total
     // ============================
-    spawnHordes = () => { // creates 4 total waves of the horde to be fought
+    spawnHordes() { // creates 4 total waves of the horde to be fought
         let multiplydHorde = this.infected;
         for(let i = 1; i <= 4; i++) {
             this.hordeWaves.push(multiplydHorde);
@@ -361,60 +413,6 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // activeInfected().attackHumans(zoey);
 // zoey.healSelf();
 
-
-
-
-// ============================
-// Game actions and inputs
-// ============================
-const startTheGame = () => {
-    $( () => {
-        const $playerPhoto = $("<img>").attr({"src": zoey.photo, "alt": "Image of " + zoey.name}).appendTo(".player");
-        const $gameEvents = $(".game-events").prepend("<p>Hold out until the helicopter arrives!</p>");
-
-        $("#start-events").on("click", () => {
-            $("#start-events").remove();
-            // alert("Clicked");
-            activeInfected().spawnInGame(zoey);
-        });
-    });
-
-    // alert("Hold out until the helicopter arrives!");
-    // activeInfected().spawnInGame(zoey);
-}
-
-const youDied = () => {
-    const restart = prompt("Would you like to restart or quit?", " ");
-    if(restart.toLowerCase() === "restart") {
-        location.reload(true);
-    } else if(restart.toLowerCase() === "quit") {
-        return;
-    } else {
-        alert("Please choose something");  
-    }
-}
-
-const whatToDo = () => {
-    const whatDo = prompt("What do you want to do?", "attack, heal, restart game, or quit game");
-    // console.log(whatDo);
-
-    if(whatDo.toLowerCase() === "attack") {
-        zoey.chanceOfHit(activeInfected());
-
-    } else if(whatDo.toLowerCase() === "heal") {
-        zoey.healSelf(activeInfected());
-
-    } else if(whatDo.toLowerCase() === "quit") {
-        console.log("QUIT GAME");
-        return;
-    } else if(whatDo.toLowerCase() === "restart game"){
-        location.reload(true);
-    } else {
-        console.log("Please make a decision!");
-        whatToDo();
-    }
-
-}
 
 // startTheGame();
 

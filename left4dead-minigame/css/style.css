@@ -1,3 +1,8 @@
+
+/* ==============
+General Page Styling
+ ============== */
+
 * {
     box-sizing: border-box;
 }
@@ -11,34 +16,29 @@ body {
     font-size: 1em;
 }
 
-.container {
-    margin: 0 auto;
-    min-width: 1000px;
-    max-width: 100%;
-    background: #000;
-    position: relative;
-}
-
 img {
-    /* max-width: 50%; */
     height: 500px;
     display: block;
     margin: auto;
 }
 
-main {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-    margin: 0 auto;
-    width: 100%;
-    background: rgb(53,83,14);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(53,83,14,1)), color-stop(77%, rgba(0,0,0,1)));
-    background: -o-linear-gradient(top, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
-    background: linear-gradient(180deg, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
+a {
+    color: #ff2c2c;
+    font-size: 1.20em;
+    font-weight: 400;
+    font-style: italic;
+    -webkit-transition: all 0.5s;    
+    -o-transition: all 0.5s;    
+    transition: all 0.5s;
 }
 
+a:hover {
+    color: #98ffa7;
+}
+
+/* ==============
+Header styles
+ ============== */
 h1 {
     font-family: 'Nosifer', cursive;
     font-size: 3em;
@@ -59,11 +59,76 @@ h2 {
     padding: 10px 0 25px 0;
 }
 
+/* ==============
+Index Page style background & enter links
+ ============== */
+.no-mercy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000 url("../images/menu/menu_1.jpg")top center no-repeat;
+    background-size: cover;
+    text-align: center;
+    padding: 25% 0;
+}
+
+a.start {
+    color: #ff2c2c;
+    display: inline-block;
+    background: white;
+    text-transform: uppercase;
+    font-style: initial;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: .10em;
+    font-size: 3.5em;
+    padding: 10px;
+    opacity: .75;
+}
+
+a.start:hover {
+    background: #ff2c2c;
+    color: #fff;
+    opacity: 1;
+}
+
+/* ==============
+Game containers
+ ============== */
+.container {
+    margin: 0 auto;
+    min-width: 1000px;
+    max-width: 100%;
+    background: #000;
+    position: relative;
+}
+
+
+main {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 0 auto;
+    width: 100%;
+    background: rgb(53,83,14);
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(53,83,14,1)), color-stop(77%, rgba(0,0,0,1)));
+    background: -o-linear-gradient(top, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
+    background: linear-gradient(180deg, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
+}
+
+/* ==============
+Boxes for player and infected sides
+ ============== */
+
 .player, .infected {
     flex-basis: 50%;
     position: relative;
 }
 
+/* Styling for event boxes & pop up content */
 .event-boxes {
     font-weight: 300;
     font-size: .75em;
@@ -76,14 +141,11 @@ h2 {
     color: #c4c4c4;
 }
 
-#rooftop-call {
-    display: none;
-}
+/* ==============
+Styling for pop up boxes
+ ============== */
 
-#heal-options {
-    display: none;
-}
-
+ /* Positioning for pop ups */
 .pop-ups {
     width: 60%;
     position: absolute;
@@ -94,9 +156,29 @@ h2 {
     transition: all 0.5s;
 }
 
-.pop-ups button {
+/* Fades body background when pop up is active */
+.fade {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.9);
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* ==============
+Styles for start pop up
+ ============== */
+#rooftop-call {
+    display: none;
+    z-index: 3;
+}
+
+
+#rooftop-call button {
     color: #ff2c2c;
-    background: rgba(16, 16, 16, 0.797);
+    background: #101010;
     padding: 10px 5px;
     display: block;
     margin: 0 auto;
@@ -104,20 +186,42 @@ h2 {
     text-transform: uppercase;
     letter-spacing: .25em;
     cursor: pointer;
-    opacity: .5;
+    opacity: .7;
     border: 1px solid #1f1f1f;
     -webkit-transition: all 0.5s linear;
     -o-transition: all 0.5s linear;    
     transition: all 0.5s linear;
 }
 
-.pop-ups button:hover {
+#rooftop-call button:hover {
     opacity: 1;
     background:  rgba(255, 44, 44, 0.844);
     color: #1f1f1f;
 }
 
-.cancel {
+#rooftop-call::after {
+    content: "";
+    background: #000 url("../images/nomercy_rooftop.jpg")center center no-repeat;
+    background-size: cover;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -2; 
+}
+
+/* ==============
+Styles for healing options pop up
+ ============== */
+#heal-options {
+    display: none;
+    background: rgba(0, 0, 0, .5);
+    z-index: 2;
+}
+
+#heal-options .cancel {
     position: absolute;
     top: 0;
     right: 0;
@@ -131,7 +235,7 @@ h2 {
     transition: all .2s;
 }
 
-.cancel:hover {
+#heal-options .cancel:hover {
     color: #ff2c2c;
 }
 
@@ -164,6 +268,9 @@ h2 {
     text-transform: uppercase;
 }
 
+/* ==============
+Positions events box for survivor and infected
+ ============== */
 #survivor-events, #infected-events {
     position: absolute;
     bottom: 0;
@@ -172,9 +279,14 @@ h2 {
     padding: 5px 20px;
     overflow: auto;
     display: none;
+    -webkit-transition: all 0.5s ease-out;    
+    -o-transition: all 0.5s ease-out;    
+    transition: all 0.5s ease-out;
 }
 
-
+/* ==============
+Section and style for options players can pick and player HUD
+ ============== */
 #player-options {
     background :#000;
     display: block;
@@ -186,6 +298,7 @@ h2 {
     justify-content: space-around;
 }
 
+/* Player health styles */
 #player-health {
     color:#fff;
     border-radius: 5px;
@@ -212,6 +325,7 @@ h2 {
     font-size: 0.60em;
 }
 
+/* Weapon player has */
 #player-weapon:hover {
     -webkit-transform: scale(1.05);
     -ms-transform: scale(1.05);
@@ -226,16 +340,20 @@ h2 {
     -o-transition: all .2s;
     transition: all .2s;
 }
-/* #player-weapon i.gi {
-} */
+
 #player-weapon span {
     font-size: .50em;
     font-family: 'Govicons';
     text-transform: uppercase;
     font-weight: 400;
 }
-#player-weapon p { font-size: .40em; padding: 0; margin: 0;}
+#player-weapon p { 
+    font-size: .40em; 
+    padding: 0; 
+    margin: 0;
+}
 
+/* Actions Players can take styling */
 #player-actions {  
     color: #fff;
 }
