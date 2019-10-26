@@ -12,7 +12,7 @@
     const $healOptions = $("#heal-options");
     const $survivorEvents = $("#survivor-events");
     const $infectedEvents = $("#infected-events");
-    const $playerH1 = $("#infected-h1");
+    const $playerH1 = $("#player-h1");
     const $infectedH1 = $("#infected-h1");
     const $playerPhoto = $("<img>").addClass("player-photo");
     const $infectedPhoto = $("<img>").addClass("infected-photo");
@@ -22,14 +22,14 @@
 
 const onStartUp = () => {
     $(() => {
-        $playerPhoto.attr({"src": zoey.photo, "alt": "Image of " + zoey.name});
+        $playerPhoto.attr({"src": thePlayer().photo, "alt": "Image of " + thePlayer().name});
         $fade.fadeIn(800);
         $rooftopCall.fadeIn(900);
         $playerPhoto.appendTo(".player"); // Loads player image
-        $playerH1.text(zoey.name); // Loads player name
-        $healthPercent.text(`${zoey.health}%`);
-        $playerGun.text(zoey.weapons.weapon);
-        $gunDamage.text(`${zoey.weapons.firepower} damage`);
+        $playerH1.text(thePlayer().name); // Loads player name
+        $healthPercent.text(`${thePlayer().health}%`);
+        $playerGun.text(thePlayer().weapons.weapon);
+        $gunDamage.text(`${thePlayer().weapons.firepower} damage`);
         startTheGame();
     });
 
@@ -40,11 +40,9 @@ const startTheGame = () => {
     $( () => {
 
         $("#start-events").on("click", () => {
-            // $infectedPhoto.attr({"src": activeInfected().photo, "alt": "Image of " + activeInfected().name});
-            // $infectedPhoto.hide().appendTo(".infected").fadeIn("fast");
             $($fade).fadeOut(800);
             $rooftopCall.fadeOut(900);
-            activeInfected().spawnInGame(zoey);
+            activeInfected().spawnInGame(thePlayer());
         });
     });
 }
@@ -69,7 +67,7 @@ const whatToDo = () => { // Lets player decide what to do
 
 $(() => {
     $("#shoot").on("click", () => {
-        zoey.chanceOfHit(activeInfected());
+        thePlayer().chanceOfHit(activeInfected());
     });
     $("#heal-self").on("click", () => {
         $fade.fadeIn(800);
@@ -80,13 +78,13 @@ $(() => {
         });
         $(".medpack").on("click", () => {
             // alert("Medpack Clicked");
-            zoey.healSelf("pack");
+            thePlayer().healSelf("pack");
             $fade.fadeOut(800);
             $healOptions.fadeOut(900);
         });
 
         $(".pills").on("click", () => {
-            zoey.healSelf("bottle");
+            thePlayer().healSelf("bottle");
             $fade.fadeOut(800);
             $healOptions.fadeOut(900);
         }); 
@@ -230,7 +228,7 @@ class Survivor { // Profile creation for survivors
         } 
 
         $healthPercent.empty();
-        $healthPercent.text(`${zoey.health}%`);
+        $healthPercent.text(`${thePlayer().health}%`);
 
         if(this.health > 0) { // If survivor survives, run what to do prompt
             whatToDo();
@@ -259,32 +257,31 @@ class Survivor { // Profile creation for survivors
         } 
 
         if(items === "pack") { // For Medpack
-            if(this.health < 100 ) {
+            if(this.health < 100) {
                 this.health += medPack;
                 this.items[0].largePack.isItOwned = "false";
-                if(zoey.health > 100) {
-                    zoey.health = 100;
+                if(this.health > 100) {
+                    this.health = 100;
                 }
             } 
         } 
-        else if( items === "bottle") {// For pills
+        else if(items === "bottle") {// For pills
             if(this.health < 100 ) {
                 this.health += pills;
                 this.items[1].pills.isItOwned = "false";
-                if(zoey.health > 100) {
-                    zoey.health = 100;
+                if(this.health > 100) {
+                    this.health = 100;
                 }
             }
         } 
         $healthPercent.empty();
+        $healthPercent.text(`${thePlayer().health}%`);
 
-        if(zoey.health > 30 && zoey.health <= 75) {
+        if(thePlayer().health > 30 && thePlayer().health <= 75) {
             $("#player-health").removeClass("at-15-percent").addClass("at-50-percent");
-            $healthPercent.text(`${zoey.health}%`);
         }  else if(this.health > 75) {
-            $("#player-health").removeClass("at-50-percent").addClass("at-100-percent");
-            $healthPercent.text(`${zoey.health}%`);
-        }
+            $("#player-health").removeClass("at-15-percent").removeClass("at-50-percent").addClass("at-100-percent");
+        } 
         
         setTimeout(() => { // launches infected's attack attempt on survivor once healing is done
             activeInfected().chanceOfAttack(this);
@@ -325,12 +322,12 @@ class Infected { // Profile creation for infected
         if(infectedHits > 3 ) {
             $infectedEvents.empty();
             this.attackHumans(survivor);
-            $infectedEvents.append(`The ${this.name} has successfully attacked ${survivor.name}!`);
+            $infectedEvents.html(`<p>The ${this.name} has successfully attacked ${survivor.name}!</p>`);
             $playerPhoto.delay(800).effect("shake");
 
         } else {
             $infectedEvents.empty();
-            $infectedEvents.html("Infected hit has missed!");
+            $infectedEvents.html("<p>Infected hit has missed!</p>");
             whatToDo();
         }
     }
@@ -376,7 +373,7 @@ class Infected { // Profile creation for infected
 
                 setTimeout(() => {
                     $infectedPhoto.remove();
-                    this.spawnInGame(zoey);
+                    this.spawnInGame(thePlayer());
                 }, 1000);
 
             } else { // If there are no more infected to kill, you've won  the game!
@@ -390,7 +387,7 @@ class Infected { // Profile creation for infected
     // ============================
     spawnInGame(survivor)  { // 'Spawns' the infected to attack
         if(allInfectedListed.length > 0) {
-            $playerH1.text(activeInfected().name);
+            $infectedH1.text(activeInfected().name);
             $infectedEvents.html(`<p>${activeInfected().name} has spawned!</p>`);
             $infectedPhoto.hide().delay("slow").fadeIn().attr("src", activeInfected().photo);
             $infectedPhoto.appendTo(".infected");
@@ -433,10 +430,34 @@ const zoey = new Survivor ( // Zoey survivor profile
     "images/survivors/zoey/zoey_3.jpg"
 );
 
+const bill = new Survivor ( // Zoey survivor profile
+    "Bill", 
+    100,
+    healthPacks,
+    playerWeapons[randomMoves.numbers(0, 4)],
+    "images/survivors/bill/bill4.jpg"
+);
+
+const louis = new Survivor ( // Zoey survivor profile
+    "Louis", 
+    100,
+    healthPacks,
+    playerWeapons[randomMoves.numbers(0, 4)],
+    "images/survivors/louis/louis_3.jpg"
+);
+
+const francis = new Survivor ( // Zoey survivor profile
+    "francis", 
+    100,
+    healthPacks,
+    playerWeapons[randomMoves.numbers(0, 4)],
+    "images/survivors/francis/francis_2.jpg"
+);
+
 const tank = new Infected ( // Tank profile
     "The Tank",
     600,
-    "images/infected/tank/tank.jpg",
+    "images/infected/tank/tank_4.png",
     infectedAttacks.theTank
 );
 
@@ -450,7 +471,7 @@ const witch = new Infected ( // Witch profile
 const hunter = new Infected ( // Hunter profile
     "The Hunter",
     250,
-    "images/infected/hunter/hunter_2.jpg",
+    "images/infected/hunter/hunter_4.png",
     infectedAttacks.theHunter
 );
 
@@ -464,13 +485,16 @@ const smoker = new Infected ( // Smoker profile
 const commonInfected = new Infected ( // Common infected / the horde profile
     "The Horde",
     randomMoves.numbers(100, 400),
-    "images/infected/horde/horde.jpg",
+    "images/infected/horde/horde_5.png",
     infectedAttacks.theHorde
     );
+
+
 
     // ============================
     // Creates horde clones, special infected array is created, then all merged into one infected array to be fought against
     // ============================
+
     const theHorde              = new IncreaseHorde(commonInfected); // pushes common infected for multiplication purposes
     const allHordes             = theHorde.spawnHordes(); // creates array of 4 total hordes
     const allSpecialInfected    = [ tank, witch, hunter, smoker ] // array of special infected
@@ -478,7 +502,10 @@ const commonInfected = new Infected ( // Common infected / the horde profile
     const activeInfected        = () => { // current infected attacking
         return allInfectedListed[0];
     } 
-
+    const allSurvivorsListed    = randomMoves.shuffle([zoey, francis, bill, louis]);
+    const thePlayer             = () => {
+        return allSurvivorsListed[0];
+    }
 // console.log(theHorde.infected.name);
 // theHorde.spawnHordes();
 // console.log(theHorde.spawnHordes());

@@ -113,10 +113,8 @@ main {
     align-items: stretch;
     margin: 0 auto;
     width: 100%;
-    background: rgb(53,83,14);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(53,83,14,1)), color-stop(77%, rgba(0,0,0,1)));
-    background: -o-linear-gradient(top, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
-    background: linear-gradient(180deg, rgba(53,83,14,1) 0%, rgba(0,0,0,1) 77%);
+    background: #000 url("../images/menu/menu_4.jpg")bottom center no-repeat;
+    background-size: cover;
 }
 
 /* ==============
@@ -288,6 +286,9 @@ Positions events box for survivor and infected
     height: 105px;
     padding: 5px 20px;
     overflow: auto;
+    text-align: center;
+    font-size: 1em;
+    line-height: 0.50em;
     -webkit-transition: all 0.5s ease-out;    
     -o-transition: all 0.5s ease-out;    
     transition: all 0.5s ease-out;
