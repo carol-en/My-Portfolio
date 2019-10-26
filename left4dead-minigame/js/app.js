@@ -1,26 +1,50 @@
 
 
-$(() => {
-    // console.log($);
-});
 
 // ============================
 // Game actions and inputs
 // ============================
+
+    const $fade = $(".fade"); 
+    const $rooftopCall = $("#rooftop-call");
+    const $healOptions = $("#heal-options");
+    const $survivorEvents = $("#survivor-events");
+    const $infectedEvents = $("#infected-events");
+    const $playerH1 = $("#infected-h1");
+    const $infectedH1 = $("#infected-h1");
+    const $playerPhoto = $("<img>").addClass("player-photo");
+    const $infectedPhoto = $("<img>").addClass("infected-photo");
+    const $healthPercent = $("#health-percent");
+    const $playerGun = $("#player-gun");
+    const $gunDamage = $("#gun-damage");
+
+const onStartUp = () => {
+    $(() => {
+        $playerPhoto.attr({"src": zoey.photo, "alt": "Image of " + zoey.name});
+        $fade.fadeIn(800);
+        $rooftopCall.fadeIn(900);
+        $playerPhoto.appendTo(".player"); // Loads player image
+        $playerH1.text(zoey.name); // Loads player name
+        $healthPercent.text(`${zoey.health}%`);
+        $playerGun.text(zoey.weapons.weapon);
+        $gunDamage.text(`${zoey.weapons.firepower} damage`);
+        startTheGame();
+    });
+
+}
+
+
 const startTheGame = () => {
     $( () => {
-        const $playerPhoto = $("<img>").attr({"src": zoey.photo, "alt": "Image of " + zoey.name}).appendTo(".player");
-        const $gameEvents = $(".game-events").prepend("<p>Hold out until the helicopter arrives!</p>");
 
         $("#start-events").on("click", () => {
-            $("#start-events").remove();
-            // alert("Clicked");
+            // $infectedPhoto.attr({"src": activeInfected().photo, "alt": "Image of " + activeInfected().name});
+            // $infectedPhoto.hide().appendTo(".infected").fadeIn("fast");
+            $($fade).fadeOut(800);
+            $rooftopCall.fadeOut(900);
             activeInfected().spawnInGame(zoey);
         });
     });
-
-    // alert("Hold out until the helicopter arrives!");
-    // activeInfected().spawnInGame(zoey);
 }
 
 const youDied = () => {
@@ -35,26 +59,33 @@ const youDied = () => {
 }
 
 const whatToDo = () => {
-    const whatDo = prompt("What do you want to do?", "attack, heal, restart game, or quit game");
-    // console.log(whatDo);
-
-    if(whatDo.toLowerCase() === "attack") {
-        zoey.chanceOfHit(activeInfected());
-
-    } else if(whatDo.toLowerCase() === "heal") {
-        zoey.healSelf(activeInfected());
-
-    } else if(whatDo.toLowerCase() === "quit") {
-        console.log("QUIT GAME");
-        return;
-    } else if(whatDo.toLowerCase() === "restart game"){
-        location.reload(true);
-    } else {
-        console.log("Please make a decision!");
-        whatToDo();
-    }
+    $survivorEvents.append("<p>What do you want to do?", "attack, heal, restart game, or quit game</p>");
 
 }
+
+$(() => {
+    $("#shoot").on("click", () => {
+        zoey.chanceOfHit(activeInfected());
+    });
+    $("#heal-self").on("click", () => {
+        $fade.fadeIn(800);
+        $healOptions.fadeIn(900);
+        $(".cancel").on("click", () => {
+            $fade.fadeOut(800);
+            $healOptions.fadeOut(900);
+        });
+        $(".medpack").on("click", () => {
+            // alert("Medpack Clicked");
+            zoey.healSelf("pack");
+        });
+
+        $(".pills").on("click", () => {
+            zoey.healSelf("bottle");
+        }); 
+    }); 
+});
+
+
 
 // ============================
 // randomMoves: Random / variable functions for dynamic attacks
@@ -156,15 +187,18 @@ class Survivor { // Profile creation for survivors
 // ============================
     chanceOfHit(infected) { 
         const weaponHits    = this.weapons.accuracy;
-        // console.log("Chances survivor's attack hits or misses");
+
         if(weaponHits > randomMoves.numbers(1, 3)) {
             // console.log("Survivors attack has landed!!");
-            this.fireWeapon(infected);
-        
+                $infectedPhoto.effect("shake");
+                $survivorEvents.empty();
+                $infectedEvents.html(`<p>${infected.name} has been hit!</p>`);
+                this.fireWeapon(infected);
         } else {
-            console.log("Survivors attack has missed!");
-            infected.chanceOfAttack(this);
+            alert("Survivors attack has missed!");
+            // infected.chanceOfAttack(this);
         }
+
     }
 
 // ============================
@@ -172,7 +206,17 @@ class Survivor { // Profile creation for survivors
 // ============================
     damageSurvivor(infected, infectedDamage)  {
         this.health -= infectedDamage;
-        console.log(`${this.name}'s health ${this.health}% from damageSurvivor function`);
+
+        if(this.health <= 50) {
+            $("#player-health").removeClass("at-100-percent").addClass("at-50-percent");
+        } else if(this.health <= 15) {
+            $("#player-health").removeClass("at-50-percent").addClass("at-15-percent");
+        } else if(this.health > 50) {
+            $("#player-health").removeClass("at-15-percent").removeClass("at-50-percent");
+        }
+
+        $healthPercent.empty();
+        $healthPercent.text(`${zoey.health}%`);
 
         if(this.health > 0) { // If survivor survives, run what to do prompt
             whatToDo();
@@ -186,34 +230,51 @@ class Survivor { // Profile creation for survivors
     // ============================
     // healSelf: Function to heal yourself when injured, can only heal ocne with pills & medpack
     // ============================
-    healSelf(infected) { 
-        const heal = prompt("What to heal with", "Pills or Medpack"); // asks which health item to use
+     healSelf(items) { 
         let medPack = this.items[0].largePack.healthRegen; // health pack
         let medPackOwned = this.items[0].largePack.isItOwned; // true or false if you have a health pack
         let pills = this.items[1].pills.healthRegen; // pills
         let pillsOwned = this.items[1].pills.isItOwned; // true or false if you have pills
-        console.log("You've healed yourself");
 
-        if(this.health === 100) { // can't heal if you're at full health
-            alert("Your health is already full!");
-        } else {
-            if(heal.toLowerCase() === "pills" &&  pillsOwned === true) { // if you choose pills while injured this heals you
-                this.health += pills; 
-                this.items[1].pills.isItOwned = false;
-    
-            } else if(heal.toLowerCase() === "medpack" && medPackOwned === true) { // if you choose medpack while injured this heals you
+        if(this.health === 100 || items === "false") {
+            if(items === "pack") {
+                $(".medpack").effect("shake");
+            } else if(items === "bottle") {
+                $(".pills").effect("shake");
+            }
+        } 
+
+        if(items === "pack") { // For Medpack
+            if(this.health < 100) {
                 this.health += medPack;
-                this.items[0].largePack.isItOwned = false;
-            } else if(pillsOwned === false || medPackOwned === false) { // if you're out of health items you're told you can't heal anymore
-                alert("You have no more!");
-                whatToDo();
+                this.items[0].largePack.isItOwned = "false";
+                if(zoey.health > 100) {
+                    zoey.health = 100;
+                }
+                $healthPercent.empty();
+                $healthPercent.text(`${zoey.health}%`);
             } 
+        } 
+        else if( items === "bottle") {// For pills
+            if(this.health < 100) {
+                this.health += pills;
+                this.items[1].pills.isItOwned = "false";
+                if(zoey.health > 100) {
+                    zoey.health = 100;
+                }
+                $healthPercent.empty();
+                $healthPercent.text(`${zoey.health}%`); 
+            }
+        }            
+        if(this.health <= 50) {
+            $("#player-health").addClass("at-50-percent");
+        } else if(this.health <= 15) {
+            $("#player-health").removeClass("at-15-percent").addClass("at-50-percent");
+        } else if(this.health > 50) {
+            $("#player-health").removeClass("at-50-percent").addClass("at-100-percent");
         }
-        if(this.health > 100) { // if healing goes over 100 this resets health back to 100 max
-            this.health = 100;
-        }
-        console.log(this.health); 
-        infected.chanceOfAttack(this); // launches infected's attack attempt on survivor once healing is done
+        
+        // infected.chanceOfAttack(this); // launches infected's attack attempt on survivor once healing is done
     }
 
 // ============================
@@ -250,6 +311,9 @@ class Infected { // Profile creation for infected
         if(infectedHits > 3 ) {
             // console.log("Infected hit has landed");
             this.attackHumans(survivor);
+            $infectedEvents.append(`The ${this.name} has successfully attacked ${survivor.name}!`);
+            $playerPhoto.effect("shake");
+
         } else {
             console.log("Infected hit has missed!");
             whatToDo();
@@ -272,7 +336,6 @@ class Infected { // Profile creation for infected
         var dynamicAttack = this.infectedHit(); // current infect's attack 
 
         // console.log(`${survivor.name} is at ${survivorHealth} health`);
-        console.log(`${this.name} has attacked with ${dynamicAttack[0]} with a damage of ${dynamicAttack[1]}`);
         survivor.damageSurvivor(this, dynamicAttack[1]);
     }
 
@@ -282,16 +345,20 @@ class Infected { // Profile creation for infected
     takeDamage(survivor) { 
         this.health -= survivor.weapons.firepower;
         let infectedsHealth = this.health;
-
         if(infectedsHealth > 0 ) { // If infected's health is over 0
-            console.log(`${this.name} has survived the attack! with ${infectedsHealth} health left!`);
+            $infectedEvents.append(`${this.name} has survived the attack!`);
             this.chanceOfAttack(survivor);
 
         } else { // If infect's health is at or below 0, kill it
-            console.log(`${this.name} is dead, remove from array`);
-            allInfectedListed.shift();
+
+                $infectedEvents.empty();
+                $infectedEvents.html(`<p>${this.name} is has been killed!</p>`);
+                $playerH1.empty();
+                $infectedPhoto.remove();
+
+                allInfectedListed.shift();
             if(allInfectedListed.length > 0) { // If there's still infected to fight, remove newly killed infected from array
-                activeInfected().spawnInGame(zoey);
+                this.spawnInGame(zoey);
 
             } else { // If there are no more infected to kill, you've won  the game!
                 console.log("Game won!");
@@ -303,12 +370,12 @@ class Infected { // Profile creation for infected
     // spawnInGame: // 'Spawns' the infected to attack, the first move & event of the game
     // ============================
     spawnInGame(survivor)  { // 'Spawns' the infected to attack
-
-    $(() => {
-        const $infectedPhoto = $("<img>").attr({"src": activeInfected().photo, "alt": "Image of " + activeInfected().name}).appendTo(".infected");
-    });
-        console.log(`${this.name} has spawned to attack ${survivor.name}!`);
         if(allInfectedListed.length > 0) {
+            $infectedEvents.empty();
+            $playerH1.text(this.name);
+            $infectedEvents.html(`<p>${this.name} has spawned!</p>`);
+            $infectedPhoto.attr("src", this.photo);
+            $infectedPhoto.appendTo(".infected");
             whatToDo();
         } else {
             console.log("Everybody's dead!");
@@ -413,8 +480,8 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 // activeInfected().attackHumans(zoey);
 // zoey.healSelf();
 
+onStartUp();
 
-// startTheGame();
 
 //////////////////////////////////////
 // LEFT4DEAD MINI GAME

@@ -158,9 +158,10 @@ Styling for pop up boxes
 
 /* Fades body background when pop up is active */
 .fade {
+    display: none;
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     background: rgba(0, 0, 0, 0.9);
     top: 0;
     left: 0;
@@ -218,7 +219,7 @@ Styles for healing options pop up
 #heal-options {
     display: none;
     background: rgba(0, 0, 0, .5);
-    z-index: 2;
+    z-index: 3;
 }
 
 #heal-options .cancel {
@@ -278,10 +279,10 @@ Positions events box for survivor and infected
     height: 105px;
     padding: 5px 20px;
     overflow: auto;
-    display: none;
     -webkit-transition: all 0.5s ease-out;    
     -o-transition: all 0.5s ease-out;    
     transition: all 0.5s ease-out;
+    z-index: 1;
 }
 
 /* ==============
@@ -377,3 +378,14 @@ Section and style for options players can pick and player HUD
     transform: scale(1.5);
 }
 
+#player-actions .disabled {
+    color: rgba(128, 128, 128, 0.721);
+    cursor: not-allowed;
+}
+
+#player-actions  .disabled:hover {
+    color: rgba(128, 128, 128, 0.461);
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);  
+}
