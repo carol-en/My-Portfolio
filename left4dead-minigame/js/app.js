@@ -348,6 +348,7 @@ class Infected { // Profile creation for infected
         var dynamicAttack = this.infectedHit(); // current infect's attack 
 
         // console.log(`${survivor.name} is at ${survivorHealth} health`);
+        $infectedEvents.html(`<p>The ${this.name} has attacked with ${dynamicAttack[0]}!</p>`);
         survivor.damageSurvivor(this, dynamicAttack[1]);
     }
 
