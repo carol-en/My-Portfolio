@@ -6,6 +6,8 @@
 // ============================
 
     const $fade = $(".fade"); 
+    const $youDied = $("#you-died");
+    const $youWin = $("#you-win");
     const $rooftopCall = $("#rooftop-call");
     const $healOptions = $("#heal-options");
     const $survivorEvents = $("#survivor-events");
@@ -48,17 +50,19 @@ const startTheGame = () => {
 }
 
 const youDied = () => {
-    const restart = prompt("Would you like to restart or quit?", " ");
-    if(restart.toLowerCase() === "restart") {
+    $fade.fadeIn(800);
+    $youDied.fadeIn(900);
+    setTimeout(() => {
         location.reload(true);
-    } else if(restart.toLowerCase() === "quit") {
-        return;
-    } else {
-        alert("Please choose something");  
-    }
+    }, 2000);
 }
 
-const whatToDo = () => {
+const youWin = () => {
+    $fade.fadeIn(800);
+    $youWin.fadeIn(800);
+}
+
+const whatToDo = () => { // Lets player decide what to do
     $survivorEvents.append("<p>What do you want to do?", "attack, heal, restart game, or quit game</p>");
 
 }
@@ -77,12 +81,23 @@ $(() => {
         $(".medpack").on("click", () => {
             // alert("Medpack Clicked");
             zoey.healSelf("pack");
+            $fade.fadeOut(800);
+            $healOptions.fadeOut(900);
         });
 
         $(".pills").on("click", () => {
             zoey.healSelf("bottle");
+            $fade.fadeOut(800);
+            $healOptions.fadeOut(900);
         }); 
     }); 
+    $("#quit-game").on("click", () => {
+        window.location = "index.html";
+    });
+
+    $("#restart").on("click", () => {
+        location.reload(true);
+    });
 });
 
 
@@ -195,8 +210,9 @@ class Survivor { // Profile creation for survivors
                 $infectedEvents.html(`<p>${infected.name} has been hit!</p>`);
                 this.fireWeapon(infected);
         } else {
-            alert("Survivors attack has missed!");
-            // infected.chanceOfAttack(this);
+            $survivorEvents.empty();
+            $survivorEvents.html("<p>You've missed your shot!</p>");
+            infected.chanceOfAttack(this);
         }
 
     }
@@ -207,13 +223,11 @@ class Survivor { // Profile creation for survivors
     damageSurvivor(infected, infectedDamage)  {
         this.health -= infectedDamage;
 
-        if(this.health <= 50) {
+        if(this.health <= 75 && this.health > 30)  {
             $("#player-health").removeClass("at-100-percent").addClass("at-50-percent");
-        } else if(this.health <= 15) {
+        } else if(this.health <= 30) {
             $("#player-health").removeClass("at-50-percent").addClass("at-15-percent");
-        } else if(this.health > 50) {
-            $("#player-health").removeClass("at-15-percent").removeClass("at-50-percent");
-        }
+        } 
 
         $healthPercent.empty();
         $healthPercent.text(`${zoey.health}%`);
@@ -222,7 +236,6 @@ class Survivor { // Profile creation for survivors
             whatToDo();
 
         } else if(this.health <= 0) { // Ask to restart when dying
-            console.log("You died!");
             youDied();
         }
     }
@@ -241,40 +254,41 @@ class Survivor { // Profile creation for survivors
                 $(".medpack").effect("shake");
             } else if(items === "bottle") {
                 $(".pills").effect("shake");
+                return;
             }
         } 
 
         if(items === "pack") { // For Medpack
-            if(this.health < 100) {
+            if(this.health < 100 ) {
                 this.health += medPack;
                 this.items[0].largePack.isItOwned = "false";
                 if(zoey.health > 100) {
                     zoey.health = 100;
                 }
-                $healthPercent.empty();
-                $healthPercent.text(`${zoey.health}%`);
             } 
         } 
         else if( items === "bottle") {// For pills
-            if(this.health < 100) {
+            if(this.health < 100 ) {
                 this.health += pills;
                 this.items[1].pills.isItOwned = "false";
                 if(zoey.health > 100) {
                     zoey.health = 100;
                 }
-                $healthPercent.empty();
-                $healthPercent.text(`${zoey.health}%`); 
             }
-        }            
-        if(this.health <= 50) {
-            $("#player-health").addClass("at-50-percent");
-        } else if(this.health <= 15) {
+        } 
+        $healthPercent.empty();
+
+        if(zoey.health > 30 && zoey.health <= 75) {
             $("#player-health").removeClass("at-15-percent").addClass("at-50-percent");
-        } else if(this.health > 50) {
+            $healthPercent.text(`${zoey.health}%`);
+        }  else if(this.health > 75) {
             $("#player-health").removeClass("at-50-percent").addClass("at-100-percent");
+            $healthPercent.text(`${zoey.health}%`);
         }
         
-        // infected.chanceOfAttack(this); // launches infected's attack attempt on survivor once healing is done
+        setTimeout(() => { // launches infected's attack attempt on survivor once healing is done
+            activeInfected().chanceOfAttack(this);
+        }, 2000); 
     }
 
 // ============================
@@ -309,13 +323,14 @@ class Infected { // Profile creation for infected
     chanceOfAttack(survivor)  { // Param 'survivor' passes survivor profile
         let infectedHits        = this.attack.hitChance;
         if(infectedHits > 3 ) {
-            // console.log("Infected hit has landed");
+            $infectedEvents.empty();
             this.attackHumans(survivor);
             $infectedEvents.append(`The ${this.name} has successfully attacked ${survivor.name}!`);
-            $playerPhoto.effect("shake");
+            $playerPhoto.delay(800).effect("shake");
 
         } else {
-            console.log("Infected hit has missed!");
+            $infectedEvents.empty();
+            $infectedEvents.html("Infected hit has missed!");
             whatToDo();
         }
     }
@@ -346,22 +361,26 @@ class Infected { // Profile creation for infected
         this.health -= survivor.weapons.firepower;
         let infectedsHealth = this.health;
         if(infectedsHealth > 0 ) { // If infected's health is over 0
-            $infectedEvents.append(`${this.name} has survived the attack!`);
+            $infectedEvents.empty();
+            $infectedEvents.html(`<p>${this.name} has survived the attack!</p>`);
             this.chanceOfAttack(survivor);
 
-        } else { // If infect's health is at or below 0, kill it
+        } else if(infectedsHealth <= 0) { // If infect's health is at or below 0, kill it
 
-                $infectedEvents.empty();
-                $infectedEvents.html(`<p>${this.name} is has been killed!</p>`);
-                $playerH1.empty();
-                $infectedPhoto.remove();
-
-                allInfectedListed.shift();
             if(allInfectedListed.length > 0) { // If there's still infected to fight, remove newly killed infected from array
-                this.spawnInGame(zoey);
+                allInfectedListed.shift();
+                $infectedEvents.empty();
+                $infectedEvents.html(`<p>${this.name} has been killed!</p>`);
+                $infectedH1.empty();
+                $infectedPhoto.fadeOut();
+
+                setTimeout(() => {
+                    $infectedPhoto.remove();
+                    this.spawnInGame(zoey);
+                }, 1000);
 
             } else { // If there are no more infected to kill, you've won  the game!
-                console.log("Game won!");
+                youWin();
             }
         }
     }
@@ -371,14 +390,13 @@ class Infected { // Profile creation for infected
     // ============================
     spawnInGame(survivor)  { // 'Spawns' the infected to attack
         if(allInfectedListed.length > 0) {
-            $infectedEvents.empty();
-            $playerH1.text(this.name);
-            $infectedEvents.html(`<p>${this.name} has spawned!</p>`);
-            $infectedPhoto.attr("src", this.photo);
+            $playerH1.text(activeInfected().name);
+            $infectedEvents.html(`<p>${activeInfected().name} has spawned!</p>`);
+            $infectedPhoto.hide().delay("slow").fadeIn().attr("src", activeInfected().photo);
             $infectedPhoto.appendTo(".infected");
             whatToDo();
         } else {
-            console.log("Everybody's dead!");
+            youWin();
         }
     }
 }

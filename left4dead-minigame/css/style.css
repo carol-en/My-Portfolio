@@ -216,10 +216,19 @@ Styles for start pop up
 /* ==============
 Styles for healing options pop up
  ============== */
-#heal-options {
+#heal-options, #you-died {
     display: none;
     background: rgba(0, 0, 0, .5);
     z-index: 3;
+}
+
+#you-win {
+    background: rgba(0, 0, 0, .7);
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
 }
 
 #heal-options .cancel {
