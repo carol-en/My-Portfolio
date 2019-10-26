@@ -5,20 +5,20 @@
 // Game actions and inputs
 // ============================
 
-    const $fade = $(".fade"); 
-    const $youDied = $("#you-died");
-    const $youWin = $("#you-win");
-    const $rooftopCall = $("#rooftop-call");
-    const $healOptions = $("#heal-options");
-    const $survivorEvents = $("#survivor-events");
-    const $infectedEvents = $("#infected-events");
-    const $playerH1 = $("#player-h1");
-    const $infectedH1 = $("#infected-h1");
-    const $playerPhoto = $("<img>").addClass("player-photo");
-    const $infectedPhoto = $("<img>").addClass("infected-photo");
-    const $healthPercent = $("#health-percent");
-    const $playerGun = $("#player-gun");
-    const $gunDamage = $("#gun-damage");
+    const $fade                 = $(".fade"); 
+    const $youDied              = $("#you-died");
+    const $youWin               = $("#you-win");
+    const $rooftopCall          = $("#rooftop-call");
+    const $healOptions          = $("#heal-options");
+    const $survivorEvents       = $("#survivor-events");
+    const $infectedEvents       = $("#infected-events");
+    const $playerH1             = $("#player-h1");
+    const $infectedH1           = $("#infected-h1");
+    const $playerPhoto          = $("<img>").addClass("player-photo");
+    const $infectedPhoto        = $("<img>").addClass("infected-photo");
+    const $healthPercent        = $("#health-percent");
+    const $playerGun            = $("#player-gun");
+    const $gunDamage            = $("#gun-damage");
 
 const onStartUp = () => {
     $(() => {
@@ -493,6 +493,7 @@ const commonInfected = new Infected ( // Common infected / the horde profile
 
     // ============================
     // Creates horde clones, special infected array is created, then all merged into one infected array to be fought against
+    // Also creates survivors list array and scrambles.
     // ============================
 
     const theHorde              = new IncreaseHorde(commonInfected); // pushes common infected for multiplication purposes
@@ -506,24 +507,6 @@ const commonInfected = new Infected ( // Common infected / the horde profile
     const thePlayer             = () => {
         return allSurvivorsListed[0];
     }
-// console.log(theHorde.infected.name);
-// theHorde.spawnHordes();
-// console.log(theHorde.spawnHordes());
-// console.log(allHordes);
-// console.log(allSpecialInfected);
-// console.log(allInfected);
-// activeInfected.chanceOfAttack(zoey);
-// console.log(allInfected[2].name);
-// activeInfected.takeDamage(zoey);
-// activeInfected.spawnInGame(zoey);
-// zoey.fireWeapon(activeInfected);
-// zoey.chanceOfHit(activeInfected);
-// zoey.damageSurvivor(activeInfected);
-// activeInfected.takeDamage(zoey);
-// activeInfected().spawnInGame(zoey);
-// zoey.damageSurvivor(activeInfected());
-// activeInfected().attackHumans(zoey);
-// zoey.healSelf();
 
 onStartUp();
 
