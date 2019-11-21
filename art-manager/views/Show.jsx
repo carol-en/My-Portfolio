@@ -1,12 +1,13 @@
 const React = require("react");
 const AppLayout = require('./layout/AppLayout.jsx');
 
+
 class Show extends React.Component {
-    render () {
+    render() {
         return (
-            <AppLayout title="Show Page">
-                <p>Show Page!</p>
-            </AppLayout>
+            <AppLayout title="Show Page"> 
+                <p>Hello World!</p>
+            </AppLayout> 
         )
     }
 }

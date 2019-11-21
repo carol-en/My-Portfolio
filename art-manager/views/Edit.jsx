@@ -1,12 +1,13 @@
 const React = require("react");
-const AppLayout = require("./layout/AppLayout.jsx");
+const AppLayout = require('./layout/AppLayout.jsx');
+
 
 class Edit extends React.Component {
-    render () {
+    render() {
         return (
-            <AppLayout title="Edit Page">
-                <p>Edit Page</p>
-            </AppLayout>
+            <AppLayout title="Edit Page"> 
+                <p>Hello World!</p>
+            </AppLayout> 
         )
     }
 }
