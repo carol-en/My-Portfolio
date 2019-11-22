@@ -1,3 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+}
+
 body {
-    background: coral;
+    background: #fff;
+}
+
+.project-info li {
+    padding: .5em;
+    border: 1px solid rgba(255, 255, 255, 0);
+    -webkit-transition: .2s all ease-in;
+    -o-transition: .2s all ease-in;
+    transition: .2s all ease-in;
+}
+
+.project-info li:hover, .descri {
+    background: #fff;
+    border: 1px solid #ededed;
+}
+
+.project-info li strong {
+    text-transform: uppercase;
 }
