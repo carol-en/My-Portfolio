@@ -42,7 +42,7 @@ app.get("/planner/new", (req, res) => {
 
 // update route
 app.post("/planner", (req, res) => {
-    res.send("New Page Made");
+    res.redirect("/planner");
 });
 
 // show route

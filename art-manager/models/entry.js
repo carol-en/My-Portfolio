@@ -14,7 +14,7 @@ const entrySchema = new Schema ({
     uploadedTo: Array,
     client: String,
     clientEmail: String,
-    cost: Number,
+    cost: String,
     paymentPlan: String,
     payType: String,
     details: String

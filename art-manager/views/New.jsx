@@ -6,7 +6,8 @@ class New extends React.Component {
     render() {
         return (
             <AppLayout title="Add A New Project"> 
-                <form for="/planner" method="POST">
+            <a href="/planner" className="btn btn-link">Return to Index</a>
+                <form action="/planner" method="POST">
 
                 <div class="form-row">
                     <div class="col-5 mb-3">
@@ -17,11 +18,11 @@ class New extends React.Component {
                         
                     </div>
                     <div class="col mb-3">
-                        <label for="project-name">
+                        <label for="project-type">
                             Project Type:
                         </label>
-                            <select id="project-name" className="form-control" name="type" required>
-                                <option value=""> </option>
+                            <select id="project-type" className="form-control" name="type" required>
+                                <option value="">Type</option>
                                 <option value="Commission">Commission</option>
                                 <option value="Commercial/Paid">Commercial / Paid</option>
                                 <option value="Personal">Personal</option>
@@ -38,7 +39,7 @@ class New extends React.Component {
                         <label for="stage">
                             Stage:
                         </label>
-                            <input id="stage" className="form-control" type="text" name="type" placeholder="Project Stage" required/>
+                            <input id="stage" className="form-control" type="text" name="stage" placeholder="Project Stage" required/>
                     </div>
                 </div>
 
