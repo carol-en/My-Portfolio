@@ -4,10 +4,12 @@ const Schema        = mongoose.Schema;
 const entrySchema = new Schema ({
     name: {type: String, required: true},
     type: {type: String, required: true},
+    started: {type: String, reuqired: true},
     stage: {type: String, required: true},
     status: {type: String, required: true},
     format: String,
     tools: String,
+    deadline: String,
     uploaded: {type: String, required: true},
     uploadedTo: Array,
     client: String,
@@ -15,7 +17,6 @@ const entrySchema = new Schema ({
     cost: Number,
     paymentPlan: String,
     payType: String,
-    deadline: String,
     details: String
 }, { timestamps: { createdAt: 'created_at' } });
 
