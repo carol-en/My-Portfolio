@@ -25,3 +25,21 @@ body {
 .project-info li strong {
     text-transform: uppercase;
 }
+
+.project {
+    border: 1px solid #eeeded;
+    margin: 1em;   
+}
+
+.project h2 {
+    text-transform: uppercase;
+    font-size: 1.25em;
+}
+
+.project li {
+    font-size: .85em;
+}
+
+.project li strong {
+    text-transform: uppercase;
+}
