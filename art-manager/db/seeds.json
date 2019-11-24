@@ -1,0 +1,91 @@
+[
+ {
+    "title": "Christmas Gift",
+    "type": "Personal",
+    "started": "Nov, 2019",
+    "stage": "Studies, sketches",
+    "format": "Traditional",
+    "tools": "Pencils, ink, copics",
+    "deadline": "12/15/19",
+    "uploaded": "No",
+    "uploadedTo": "N/A",
+    "client": "Tony",
+    "clientEmail": "N/A",
+    "cost":  "N/A",
+    "paymentPlan": "N/A",
+    "payType": "N/A",
+    "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+ },
+
+ {
+    "title": "City Illustration",
+    "type": "Personal",
+    "started": "August, 2019",
+    "stage": "WIP, studies",
+    "format": "Traditional",
+    "tools": "Pencils, marker, ink",
+    "deadline": "N/A",
+    "uploaded": "No",
+    "uploadedTo": "N/A",
+    "client": "N/A",
+    "clientEmail": "N/A",
+    "cost":  "N/A",
+    "paymentPlan": "N/A",
+    "payType": "N/A",
+    "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+ },
+
+ {
+    "title": "Sinclaire",
+    "type": "Paid",
+    "started": "Nov 11, 2019",
+    "stage": "WIP",
+    "format": "Digital",
+    "tools": "Photoshop",
+    "deadline": "N/A",
+    "uploaded": "No",
+    "uploadedTo": "N/A",
+    "client": "Roddy",
+    "clientEmail": "roddyink@gmail.com",
+    "cost":  "$320",
+    "paymentPlan": "Half & Half /page",
+    "payType": "PayPal",
+    "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+ },
+
+ {
+    "title": "Fernando Colors",
+    "type": "Personal",
+    "started": "Oct, 2019",
+    "stage": "WIP",
+    "format": "Digital",
+    "tools": "Photoshop",
+    "deadline": "N/A",
+    "uploaded": "No",
+    "uploadedTo": "N/A",
+    "client": "Fernando Ruiz",
+    "clientEmail": "N/A",
+    "cost":  "N/A",
+    "paymentPlan": "N/A",
+    "payType": "N/A",
+    "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+ },
+
+ {
+    "title": "Warm Up Sketch",
+    "type": "Digital",
+    "started": "Nov 22, 2019",
+    "stage": "Sketch",
+    "format": "Digital",
+    "tools": "Photoshop",
+    "deadline": "N/A",
+    "uploaded": "No",
+    "uploadedTo": "N/A",
+    "client": "N/A",
+    "clientEmail": "N/A",
+    "cost":  "N/A",
+    "paymentPlan": "N/A",
+    "payType": "N/A",
+    "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+ }
+]
