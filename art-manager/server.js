@@ -75,17 +75,37 @@ app.get("/planner/:id", (req, res) => {
 
 // edit route
 app.get("/planner/:id/edit", (req, res) => {
-    res.render("Edit");
+    Entry.findById(req.params.id, (err, data) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.render("Edit", {
+                project: data
+            });
+        }
+    });
 });
 
 // update route
 app.put("/planner/:id", (req, res) => {
-    res.send("Updated");
+    Entry.findByIdAndUpdate(req.params.id, req.body, (err, data) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.redirect("/planner/" + req.params.id);
+        }
+    });
 });
 
 // delete route
-app.delete("planner/:id", (req, res) => {
-    res.send("Deleting...");
+app.delete("/planner/:id", (req, res) => {
+    Entry.findByIdAndRemove(req.params.id, (err, data) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.redirect("/planner");
+        }
+    })
 })
 
 

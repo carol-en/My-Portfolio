@@ -5,7 +5,7 @@ const AppLayout = require('./layout/AppLayout.jsx');
 class Index extends React.Component {
     render() {
         return (
-            <AppLayout> 
+            <AppLayout title="Art Planner"> 
                     <div className="jumbotron">
                         <h1 className="display-4 text-uppercase font-weight-bold">Art Planner</h1>
                         <a href={`/planner/new`} class="btn btn-primary mb-3">Add Project</a>
