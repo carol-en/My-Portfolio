@@ -12,60 +12,22 @@ class Index extends React.Component {
                     </div>
 
                     <div className="d-flex justify-content-center flex-wrap">
-                        <div className="project p-4">
-                            <h2>Christmas Gift</h2>
-                            <ul className="list-unstyled p-1">
-                                <li><strong>Project Type:  </strong>Personal</li>
-                                <li><strong>Date Started: </strong>Nov, 2019</li>
-                                <li><strong>Last Updated: </strong>Nov 21, 2019</li>
-                                <li><strong>Status: </strong> WIP</li>
-                            </ul>
-                            <a href="#" className="btn btn-link">View More</a>
-                        </div>
+                        {
+                            this.props.projects.map((project, i) => {
+                                return (
+                                    <div className="project p-4">
+                                    <h2>{project.title}</h2>
+                                    <ul className="list-unstyled p-1">
+                                        <li><strong>Project Type:  </strong>{project.type}</li>
+                                        <li><strong>Date Started: </strong>{project.started}</li>
+                                        <li><strong>Status: </strong> {project.stage}</li>
+                                    </ul>
+                                    <a href={`/planner/${project._id}`} className="btn btn-link">View More</a>
+                                </div>
+                                )
+                            })
+                        }
 
-                        <div className="project p-4">
-                            <h2>Christmas Gift</h2>
-                            <ul className="list-unstyled p-1">
-                                <li><strong>Project Type:  </strong>Personal</li>
-                                <li><strong>Date Started: </strong>Nov, 2019</li>
-                                <li><strong>Last Updated: </strong>Nov 21, 2019</li>
-                                <li><strong>Status: </strong> WIP</li>
-                            </ul>
-                            <a href="#" className="btn btn-link">View More</a>
-                        </div>
-
-                        <div className="project p-4">
-                            <h2>Christmas Gift</h2>
-                            <ul className="list-unstyled p-1">
-                                <li><strong>Project Type:  </strong>Personal</li>
-                                <li><strong>Date Started: </strong>Nov, 2019</li>
-                                <li><strong>Last Updated: </strong>Nov 21, 2019</li>
-                                <li><strong>Status: </strong> WIP</li>
-                            </ul>
-                            <a href="#" className="btn btn-link">View More</a>
-                        </div>
-
-                        <div className="project p-4">
-                            <h2>Christmas Gift</h2>
-                            <ul className="list-unstyled p-1">
-                                <li><strong>Project Type:  </strong>Personal</li>
-                                <li><strong>Date Started: </strong>Nov, 2019</li>
-                                <li><strong>Last Updated: </strong>Nov 21, 2019</li>
-                                <li><strong>Status: </strong> WIP</li>
-                            </ul>
-                            <a href="#" className="btn btn-link">View More</a>
-                        </div>
-
-                        <div className="project p-4">
-                            <h2>Christmas Gift</h2>
-                            <ul className="list-unstyled p-1">
-                                <li><strong>Project Type: </strong> Personal</li>
-                                <li><strong>Date Started: </strong>Nov, 2019</li>
-                                <li><strong>Last Updated: </strong>Nov 21, 2019</li>
-                                <li><strong>Status: </strong> WIP</li>
-                            </ul>
-                            <a href="#" className="btn btn-link">View More</a>
-                        </div>
                     </div>
             </AppLayout> 
         )

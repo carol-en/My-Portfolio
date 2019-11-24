@@ -2,11 +2,11 @@ const mongoose      = require("mongoose");
 const Schema        = mongoose.Schema;
 
 const entrySchema = new Schema ({
+    title: {type: String, required: true},
     name: {type: String, required: true},
     type: {type: String, required: true},
     started: {type: String, reuqired: true},
     stage: {type: String, required: true},
-    status: {type: String, required: true},
     format: String,
     tools: String,
     deadline: String,

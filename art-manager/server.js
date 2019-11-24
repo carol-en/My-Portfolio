@@ -7,6 +7,7 @@ const app               = express();
 const port              = 3000;
 const mongoose          = require('mongoose');
 const methodOverride    = require("method-override");
+const Entry             = require("./models/entry.js");
 
 // ==================
 // Middleware
@@ -14,13 +15,13 @@ const methodOverride    = require("method-override");
 app.use(express.static("public"));
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
 app.use(methodOverride("_method"));
 
 // ==================
 // Database
 // ==================
-mongoose.connect("mongodb://localhost:27017/mongooseStore", ({useNewUrlParser: true, useUnifiedTopology: true}));
+mongoose.connect("mongodb://localhost:27017/artplanner", ({useNewUrlParser: true, useUnifiedTopology: true}));
 mongoose.connection.once("open", () => {
     console.log("connected to mongo");
 });
@@ -32,7 +33,15 @@ mongoose.connection.once("open", () => {
 
 // index route
 app.get("/planner", (req, res) => {
-    res.render("Index");
+    Entry.find({}, (err, allProjects) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.render("Index", {
+                projects: allProjects
+            })
+        }
+    });
 });
 
 // new route
@@ -40,14 +49,28 @@ app.get("/planner/new", (req, res) => {
     res.render("New");
 });
 
-// update route
+// post route
 app.post("/planner", (req, res) => {
-    res.redirect("/planner");
+    Entry.create(req.body, (err, newEntry) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.redirect("/planner");
+        }
+    });
 });
 
 // show route
 app.get("/planner/:id", (req, res) => {
-    res.render("Show");
+    Entry.findById(req.params.id, (err, data) => {
+        if(err) {
+            res.send(err.message);
+        } else {
+            res.render("Show", {
+                project: data
+            });
+        }
+    });
 });
 
 // edit route
@@ -56,7 +79,7 @@ app.get("/planner/:id/edit", (req, res) => {
 });
 
 // update route
-app.get("/planner/:id", (req, res) => {
+app.put("/planner/:id", (req, res) => {
     res.send("Updated");
 });
 

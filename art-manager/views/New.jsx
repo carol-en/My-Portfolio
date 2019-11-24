@@ -10,7 +10,14 @@ class New extends React.Component {
                 <form action="/planner" method="POST">
 
                 <div class="form-row">
-                    <div class="col-5 mb-3">
+                <div class="col-4 mb-3">
+                        <label for="title">
+                            Project Title:    
+                        </label>
+                            <input className="form-control" id="title" type="text" name="title" placeholder="Project Title" required/>
+                        
+                    </div>
+                    <div class="col mb-3">
                         <label for="name">
                             Name:    
                         </label>

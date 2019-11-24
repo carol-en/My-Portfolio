@@ -9,10 +9,10 @@ class Show extends React.Component {
             <a href="/planner" className="btn btn-link">Return to Index</a>
             <div className="bg-light p-5 show-pg">
                 <h2 className="display-4 text-uppercase font-weight-bold mb-3">
-                    Christmas Gift 
+                    {this.props.project.title}
                     <span class="ml-3 badge badge-primary">WIP</span>
                 </h2>
-                <a href={`/planner/edit`} class="btn btn-outline-primary mb-3">Edit Project</a>
+                <a href={`/planner/${this.props.project._id}/edit`} class="btn btn-outline-primary mb-3">Edit Project</a>
                 
 
                     <h3 className="display-5 text-uppercase">Info:</h3>
