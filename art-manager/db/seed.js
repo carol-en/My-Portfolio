@@ -6,8 +6,10 @@ mongoose.connection.once('open', () => {
 	console.log('connected to mongo');
 });
 
-Entry.deleteMany({}).then(() => {
+Entry.deleteMany({})
+.then(() => {
     return Entry.collection.insertMany(data);
-}).then(() => {
+})
+.then(() => {
     process.exit();
 });

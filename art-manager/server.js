@@ -8,6 +8,7 @@ const router            = express.Router();
 const port              = 3000;
 const mongoose          = require("./db/connection.js");
 const methodOverride    = require("method-override");
+const Entry             = require("./models/entry.js");
 const plannerController = require("./controllers/planner.js");
 
 // ==================
@@ -20,6 +21,11 @@ app.use(express.urlencoded({extended: false}));
 app.use(methodOverride("_method"));
 app.use("/planner", plannerController);
 
+
+
+mongoose.connection.once("open", () => {
+    console.log("connected to mongo");
+});
 
 // ==================
 // Listen
