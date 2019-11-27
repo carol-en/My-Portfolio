@@ -26,7 +26,7 @@ router.get("/new", (req, res) => {
 });
 
 // post route
-router.post("/planner", (req, res) => {
+router.post("/", (req, res) => {
     Entry.create(req.body, (err, newEntry) => {
         if(err) {
             res.send(err.message);
