@@ -44,7 +44,8 @@ class EditForm extends Component {
     render() {
         const handleUpdate = this.props.handleUpdate,
               handleChange = this.props.handleChange,
-              formInputs = this.props.formInputs;
+              formInputs = this.props.state.formInputs,
+              entryID = this.props.state.id
         return (
             <>
                 <h1>Edit Site</h1>
@@ -70,7 +71,7 @@ class EditForm extends Component {
                         <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange}></textarea>
                     </div>
                     <div className="temp-form-name">
-                        <label htmlFor="temp-change"></label>
+                        <input  value={entryID} id="id" type="hidden" name="id" />
                         <input type="submit" value="Update Program!" />
                     </div>
                 </form>
@@ -91,6 +92,7 @@ class Bookmarks extends Component {
             img: ""
 
         },
+        id: "",
         editing: false
         
     }
@@ -149,6 +151,7 @@ class Bookmarks extends Component {
         if(!editing) {
             this.setState({ 
                 editing: !editing,
+                id: entry.id,
                 formInputs: {
                     site_name: entry.site_name,
                     url: entry.url,
@@ -160,6 +163,7 @@ class Bookmarks extends Component {
         }  else if(editing) {
             this.setState({ 
                 editing: !editing,
+                id: "",
                 formInputs: {
                     site_name: "",
                     url: "",
@@ -168,13 +172,15 @@ class Bookmarks extends Component {
                     img: ""
                 }
             });
-        }
+        }     
     }
 
     handleUpdate = (event) => {
         event.preventDefault();
+        const id = event.target.id.value;
         console.log("Entry updated!");
-        console.log(event);
+        console.log(id );
+        // CONTINUE HERE
     }
 
     handleDestroy = () => {
@@ -189,7 +195,7 @@ class Bookmarks extends Component {
                    {this.state.editing ? <EditForm 
                                             handleUpdate= {this.handleUpdate} 
                                             handleChange={this.handleChange}
-                                            formInputs={this.state.formInputs}
+                                            state={this.state}
                                             />  : <NewForm 
                                             handleSubmit= {this.handleSubmit} 
                                             handleChange={this.handleChange}
