@@ -139,6 +139,8 @@ class Bookmarks extends Component {
                     description: "",
                     img: ""
                 },
+                id: "",
+                editing: false,
                 sites: [jMark, ...this.state.sites]
             });
         })
@@ -178,13 +180,50 @@ class Bookmarks extends Component {
     handleUpdate = (event) => {
         event.preventDefault();
         const id = event.target.id.value;
-        console.log("Entry updated!");
-        console.log(id );
-        // CONTINUE HERE
+
+        fetch(`http://localhost:3000/bookmarks/${id}`, {
+            body: JSON.stringify(this.state.formInputs),
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(updatedMark => updatedMark.json())
+        .then(jMark => {
+                fetch("http://localhost:3000/bookmarks/")
+                    .then(updatedMark => updatedMark.json())
+                    .then(JupdatedMark => {
+                        this.setState({
+                            id: "",
+                            editing: false,
+                            sites: JupdatedMark,
+                            formInputs: {
+                                site_name:"",
+                                url: "",
+                                category: "",
+                                description: "",
+                                img: ""
+                            }
+                        });
+                    })
+        })
+        .catch(err => console.log(err));
     }
 
-    handleDestroy = () => {
-        console.log("Entry has been deleted!");
+    handleDestroy = (entry, index) => {
+        fetch("http://localhost:3000/bookmarks/" + index, 
+            {
+                method: "DELETE"
+            })
+            .then(data => {
+                this.setState({
+                    sites: [
+                        ...this.state.sites.slice(0, index),
+                        ...this.state.sites.slice(index + 1)
+                    ]
+                })
+            })
     }
 
 
@@ -205,13 +244,13 @@ class Bookmarks extends Component {
 
                 <section>
                     <ul className="entries">
-                        {this.state.sites.map(site => {
+                        {this.state.sites.map((site, i) => {
                             return (
                                 <li key={site.id}>
                                     <button onClick={() => {this.handleEdit(site)}} >
                                         {!this.state.editing ? "Edit" : "Cancel"}
                                     </button>
-                                    <button  onClick={this.handleDestroy}>Delete</button>
+                                    <button  onClick={() => {this.handleDestroy(site, i)}}>Delete</button>
                                     <h1>{site.site_name}</h1>
                                     <figure>
                                         <a href={site.url}>
