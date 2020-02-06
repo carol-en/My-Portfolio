@@ -10,28 +10,27 @@ class NewForm extends Component {
             <>
                 <h1>New Site</h1>
                 <form  onSubmit={handleSubmit}>
-                    <div className="temp-form-name">
-                        <label htmlFor="site_name">Site Name</label>
-                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="site_name">Site Name</label><br />
+                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange} required/>
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="url">URL</label>
-                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} />
+                    <div className="form-portion">
+                        <label htmlFor="url">URL</label><br />
+                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} required/>
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="category">Category</label>
-                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="category">Category</label><br />
+                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange} required/>
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="img">Image</label>
-                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="img">Image</label><br />
+                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange} required/>
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="description">Description</label>
-                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange}></textarea>
+                    <div className="form-portion">
+                        <label htmlFor="description">Description</label><br />
+                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange} required></textarea>
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="temp-change"></label>
+                    <div className="form-portion">
                         <input type="submit" value="New Program!" />
                     </div>
                 </form>
@@ -50,27 +49,27 @@ class EditForm extends Component {
             <>
                 <h1>Edit Site</h1>
                 <form  onSubmit={handleUpdate}>
-                    <div className="temp-form-name">
-                        <label htmlFor="site_name">Site Name</label>
-                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="site_name">Site Name</label><br />
+                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange} requried />
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="url">URL</label>
-                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} />
+                    <div className="form-portion">
+                        <label htmlFor="url">URL</label><br />
+                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} requried />
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="category">Category</label>
-                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="category">Category</label><br />
+                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange} required />
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="img">Image</label>
-                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange}/>
+                    <div className="form-portion">
+                        <label htmlFor="img">Image</label><br />
+                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange} required />
                     </div>
-                    <div className="temp-form-name">
-                        <label htmlFor="description">Description</label>
-                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange}></textarea>
+                    <div className="form-portion">
+                        <label htmlFor="description">Description</label><br />
+                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange} required ></textarea>
                     </div>
-                    <div className="temp-form-name">
+                    <div className="form-portion">
                         <input  value={entryID} id="id" type="hidden" name="id" />
                         <input type="submit" value="Update Program!" />
                     </div>
@@ -230,7 +229,7 @@ class Bookmarks extends Component {
     render() {
         return (
             <main>
-                <header className="form-area">
+                <aside className="form-area">
                    {this.state.editing ? <EditForm 
                                             handleUpdate= {this.handleUpdate} 
                                             handleChange={this.handleChange}
@@ -240,27 +239,31 @@ class Bookmarks extends Component {
                                             handleChange={this.handleChange}
                                             formInputs={this.state.formInputs}
                                             /> }
-                </header>
+                </aside>
 
-                <section>
+                <section className="content">
                     <ul className="entries">
                         {this.state.sites.map((site, i) => {
                             return (
                                 <li key={site.id}>
-                                    <button onClick={() => {this.handleEdit(site)}} >
-                                        {!this.state.editing ? "Edit" : "Cancel"}
-                                    </button>
-                                    <button  onClick={() => {this.handleDestroy(site, i)}}>Delete</button>
-                                    <h1>{site.site_name}</h1>
                                     <figure>
+                                    <h1>{site.site_name}</h1>
                                         <a href={site.url}>
                                             <img src={site.img}  alt={site.site_name} />
                                         </a>
                                     </figure>
-                                    <h2><span>Category: </span> {site.category}</h2>
-                                    <aside>
-                                        {site.description}
-                                        <a href={site.url} title={site.url}>Visit Now!</a>
+                                    <aside className="entry">
+                                        <h2><span>Category: </span> {site.category}</h2>
+                                        <p>
+                                            {site.description}
+                                        </p>
+                                        <a href={site.url} title={site.url} className="visit">Visit Now!</a>
+                                        <div>
+                                            <button onClick={() => {this.handleEdit(site)}} className="edit-btn">
+                                        {!this.state.editing ? "Edit" : "Cancel"}
+                                            </button>
+                                             <button  onClick={() => {this.handleDestroy(site, i)}} className="delete-btn">Delete</button>
+                                        </div>
                                     </aside>
                                 </li>
                             )

@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
 
   # GET /bookmarks
   def index
-    @bookmarks = Bookmark.all
+    @bookmarks = Bookmark.all.reverse
 
     render json: @bookmarks
   end
