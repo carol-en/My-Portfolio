@@ -1,83 +1,9 @@
 import React, {Component} from 'react';
+import NewForm from "../components/NewForm.js";
+import EditForm from "../components/EditForm.js";
+import Entries from "../components/Entries.js";
 import '../App.css';
 
-class NewForm extends Component {
-    render() {
-        const handleSubmit = this.props.handleSubmit,
-              handleChange = this.props.handleChange,
-              formInputs = this.props.formInputs;
-        return (
-            <>
-                <h1>New Site</h1>
-                <form  onSubmit={handleSubmit}>
-                    <div className="form-portion">
-                        <label htmlFor="site_name">Site Name</label><br />
-                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange} required/>
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="url">URL</label><br />
-                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} required/>
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="category">Category</label><br />
-                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange} required/>
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="img">Image</label><br />
-                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange} required/>
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="description">Description</label><br />
-                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange} required></textarea>
-                    </div>
-                    <div className="form-portion">
-                        <input type="submit" value="New Program!" />
-                    </div>
-                </form>
-            </>
-        )
-    }
-}
-
-class EditForm extends Component {
-    render() {
-        const handleUpdate = this.props.handleUpdate,
-              handleChange = this.props.handleChange,
-              formInputs = this.props.state.formInputs,
-              entryID = this.props.state.id
-        return (
-            <>
-                <h1>Edit Site</h1>
-                <form  onSubmit={handleUpdate}>
-                    <div className="form-portion">
-                        <label htmlFor="site_name">Site Name</label><br />
-                        <input  value={formInputs.site_name} id="site_name" type="text" placeholder="Site Name" onChange={handleChange} requried />
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="url">URL</label><br />
-                        <input  value={formInputs.url} id="url" type="text" placeholder="URL"onChange={handleChange} requried />
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="category">Category</label><br />
-                        <input  value={formInputs.category} id="category" type="text" placeholder="Category" onChange={handleChange} required />
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="img">Image</label><br />
-                        <input  value={formInputs.img} id="img" type="text" placeholder="Image" onChange={handleChange} required />
-                    </div>
-                    <div className="form-portion">
-                        <label htmlFor="description">Description</label><br />
-                        <textarea  value={formInputs.description} id="description" placeholder="Description" onChange={handleChange} required ></textarea>
-                    </div>
-                    <div className="form-portion">
-                        <input  value={entryID} id="id" type="hidden" name="id" />
-                        <input type="submit" value="Update Program!" />
-                    </div>
-                </form>
-            </>
-        )
-    }
-}
 
 
 class Bookmarks extends Component {
@@ -211,7 +137,8 @@ class Bookmarks extends Component {
     }
 
     handleDestroy = (entry, index) => {
-        fetch("http://localhost:3000/bookmarks/" + index, 
+        const id = entry.id;
+        fetch(`http://localhost:3000/bookmarks/${id}`, 
             {
                 method: "DELETE"
             })
@@ -242,33 +169,7 @@ class Bookmarks extends Component {
                 </aside>
 
                 <section className="content">
-                    <ul className="entries">
-                        {this.state.sites.map((site, i) => {
-                            return (
-                                <li key={site.id}>
-                                    <figure>
-                                    <h1>{site.site_name}</h1>
-                                        <a href={site.url}>
-                                            <img src={site.img}  alt={site.site_name} />
-                                        </a>
-                                    </figure>
-                                    <aside className="entry">
-                                        <h2><span>Category: </span> {site.category}</h2>
-                                        <p>
-                                            {site.description}
-                                        </p>
-                                        <a href={site.url} title={site.url} className="visit">Visit Now!</a>
-                                        <div>
-                                            <button onClick={() => {this.handleEdit(site)}} className="edit-btn">
-                                        {!this.state.editing ? "Edit" : "Cancel"}
-                                            </button>
-                                             <button  onClick={() => {this.handleDestroy(site, i)}} className="delete-btn">Delete</button>
-                                        </div>
-                                    </aside>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                    <Entries entries={this.state} handleEdit={this.handleEdit} handleDestroy={this.handleDestroy} />
                 </section>
             </main>
         )
