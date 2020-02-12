@@ -1,31 +1,43 @@
 import React, { Component } from 'react';
 
-class CanvasReact extends Component {
 
+const background = {
+    data: {
+        url: "https://i.imgur.com/9WSZvp7.jpg",
+        width: window.innerWidth,
+        height: window.innerHeight
+    }
+}
+
+class CanvasReact extends Component {
 
     componentDidMount () {
         this.init();
     }
-    
-    init = () => {
-        const hero = this.refs.canvas;
-        const heroCanvas = hero.getContext("2d");
-        hero.width = window.innerWidth;
-        hero.height =  window.innerHeight;
-        let img = new Image();
-        img.src =  "https://i.imgur.com/9WSZvp7.jpg";
-        img.onload = () => {
-            heroCanvas.drawImage(img, 0, 0, hero.width, hero.height);
-        }
-        window.addEventListener("resize", () => { 
-            hero.width = window.innerWidth;
-            hero.height =  window.innerHeight;
 
-            img.remove();
-            heroCanvas.drawImage(img, 0, 0, hero.width, hero.height);
+    init = () =>  {
+            const canvas = this.refs.canvas;
+            const heroCanvas = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const image = new Image();
+            image.src = background.data.url;
 
-        });  
+            image.onload = () => {
+                heroCanvas.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
+
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight; 
+
+                image.remove();
+                heroCanvas.drawImage(image, 0, 0, canvas.width, canvas.height);
+            })
+        
     }
+
+
 
 
     render() {
