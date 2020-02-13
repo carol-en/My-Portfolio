@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import main from "./main.css";
 
 
 
@@ -107,7 +108,13 @@ class Canvas extends Component {
     }
 
     render() {
-        return <canvas ref={this.canvasRef}  className="hero"/>;
+        return (
+            <>
+            <h1>Hello from canvas</h1>
+            
+            <canvas ref={this.canvasRef}  className="hero"/>
+            </>
+        )
         
     }
 
