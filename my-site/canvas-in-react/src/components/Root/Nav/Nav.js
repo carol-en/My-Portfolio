@@ -1,5 +1,5 @@
 import React, { Component} from "react";
-import {Link, Route, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Nav extends Component {
     render() {
@@ -10,6 +10,7 @@ class Nav extends Component {
                 <Link to="/about">About</Link>
                 <Link to="/portfolio">Portfolio</Link>
                 <Link to="/gallery">Gallery</Link>
+                <Link to="/blog">Blog</Link>
                 <Link to="/contact">Contact</Link>
             </nav>
         )

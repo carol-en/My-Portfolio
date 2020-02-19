@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {Link, Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import About from "./About";
-import Portfolio from "./Portfolio";
-import Gallery from "./Gallery";
-import Contact from "./Contact";
+import RouterReact from "./RouterReact/";
 import Nav from "./Nav";
 
 class Root extends Component {
@@ -13,17 +8,11 @@ class Root extends Component {
             <section>
                 <Nav/ >
                 <h1>This is the root component</h1>
-                <Switch>
-                    <Route component ={About} exact path="/about" />
-                    <Route component ={Portfolio} exact path="/portfolio" />
-                    <Route component ={Gallery} path="/gallery" />
-                    <Route component ={Contact} exact path="/contact" />
-                    <Route component ={Home} exact path="/" />
-                </Switch>
+                <RouterReact />
             </section>
         )
     }
 }
 
 
-export default Root
+export default Root;
