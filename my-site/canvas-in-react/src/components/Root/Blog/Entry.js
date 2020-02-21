@@ -6,7 +6,7 @@ class Entry extends Component {
         entry: null
     }
 
-    componentDidMountw() {
+    componentDidMount() {
         const slug = this.props.match.params.blogPost;
           client.getEntries({
               content_type: "blogPost",
