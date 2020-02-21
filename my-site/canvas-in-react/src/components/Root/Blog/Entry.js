@@ -1,27 +1,47 @@
 import React, { Component } from "react";
-import * as contentful from 'contentful';
+import client from "../contentful";
 
 class Entry extends Component {
     state = {
-        entry: []
+        entry: null
     }
 
-    componentDidMount () {
-        const client = contentful.createClient({
-            space: "oe5zw42azvek",
-            accessToken: "jWh_juUQ_Aua6Oe2w24RTTPdX4j3eYP3BjPvFs4RSVs"
-          });
-        //   client.getEntry('<entry_id>')
-        //     .then((entry) => console.log(entry))
-        //     .catch(console.error)
+    componentDidMountw() {
+        const slug = this.props.match.params.blogPost;
+          client.getEntries({
+              content_type: "blogPost",
+              'fields.slug[match]': slug,
+              limit: 1
+          })
+            .then(entry => this.setState({ entry: entry.items[0] }))
+            .catch(console.error)
 
+    }
+
+    article() {
+        let entry = this.state.entry;
+        if(!entry) {
+            return <h1>Loading...</h1>
+         } else {
+              return (
+                 <li key= {entry.sys.id}>
+                     <h2>{entry.fields.title}</h2> 
+                     <h3>{entry.fields.name}</h3>
+                     <h4>{entry.fields.publishDate}</h4>
+                     <blockquote>{entry.fields.body}</blockquote>
+                 </li>
+             )
+         }
     }
     render() {
-        console.log("PROPS: ", this.props);
-
-        //TRYING TO PASS PROPS FROM LINK in BLOG to ENTRY
+        let entry = this.article();
         return (
+            <>
             <h1>Hello from Entry</h1>
+                <ul>
+                    {entry}
+                </ul>
+            </>
         )
     }
 }
