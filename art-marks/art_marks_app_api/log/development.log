@@ -5124,3 +5124,193 @@ Processing by BookmarksController#index as HTML
 Completed 200 OK in 62ms (Views: 22.0ms | ActiveRecord: 10.7ms | Allocations: 6180)
 
 
+  [1m[35m (9.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (10.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (163.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "artmark_app_api_development"[0m
+  [1m[35m (100.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "artmark_app_api_test"[0m
+  [1m[35m (314.6ms)[0m  [1m[35mCREATE DATABASE "artmark_app_api_development" ENCODING = 'unicode'[0m
+  [1m[35m (140.7ms)[0m  [1m[35mCREATE DATABASE "artmark_app_api_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "bookmarks" CASCADE[0m
+  [1m[35m (27.4ms)[0m  [1m[35mCREATE TABLE "bookmarks" ("id" bigserial primary key, "site_name" character varying, "category" character varying, "url" character varying, "img" character varying, "description" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (11.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200204223224)[0m
+  [1m[35m (12.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (3.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-02-22 16:28:29.611763"], ["updated_at", "2020-02-22 16:28:29.611763"]]
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (4.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "a909f8cff3893d548e51a19b1f1ea2e58b19b2fd"], ["created_at", "2020-02-22 16:28:29.656282"], ["updated_at", "2020-02-22 16:28:29.656282"]]
+  [1m[35m (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "bookmarks" CASCADE[0m
+  [1m[35m (18.9ms)[0m  [1m[35mCREATE TABLE "bookmarks" ("id" bigserial primary key, "site_name" character varying, "category" character varying, "url" character varying, "img" character varying, "description" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (11.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200204223224)[0m
+  [1m[35m (20.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-02-22 16:28:29.807489"], ["updated_at", "2020-02-22 16:28:29.807489"]]
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Update (7.4ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2020-02-22 16:28:29.818213"], ["key", "environment"]]
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "a909f8cff3893d548e51a19b1f1ea2e58b19b2fd"], ["created_at", "2020-02-22 16:28:29.839427"], ["updated_at", "2020-02-22 16:28:29.839427"]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1760668161406142100)[0m
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateNewS (20200215234228)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (12.7ms)[0m  [1m[35mCREATE TABLE "new_s" ("id" bigserial primary key, "bookmarks" character varying, "site_name" character varying, "category" character varying, "url" character varying, "img" character varying, "description" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (4.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200215234228"]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(1760668161406142100)[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBookmark Create (5.8ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "Class 101"], ["category", "Paid courses"], ["url", "https://en.class101.net/"], ["img", "https://i.imgur.com/exHWnIY.png"], ["description", "Korea based programs for a variety of art and cooking interests. Paid."], ["created_at", "2020-02-22 16:28:56.653513"], ["updated_at", "2020-02-22 16:28:56.653513"]]
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBookmark Create (0.4ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "Art Station"], ["category", "Portfolio & Workshops"], ["url", "https://www.artstation.com/"], ["img", "https://i.imgur.com/8zHMS4v.png"], ["description", "Offers paid workshops in a variety of art fields, both traditional and ditial."], ["created_at", "2020-02-22 16:28:56.668910"], ["updated_at", "2020-02-22 16:28:56.668910"]]
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBookmark Create (0.5ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "New Masters Academy"], ["category", "Online Workshops"], ["url", "https://www.nma.art/"], ["img", "https://i.imgur.com/Fqik7Ak.png"], ["description", "Offers different levels of paid subscriptions for classes and even personaly mentorying. Main focus is traditional."], ["created_at", "2020-02-22 16:28:56.687842"], ["updated_at", "2020-02-22 16:28:56.687842"]]
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBookmark Create (0.4ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "Cube Brush"], ["category", "Online Tools & Resources"], ["url", "https://cubebrush.co"], ["img", "https://i.imgur.com/6PRPFYG.png"], ["description", "Mainly a resource site but features many (paid) tutorials. Focus is on 3D digitial sculping but art fundamentals exist."], ["created_at", "2020-02-22 16:28:56.696732"], ["updated_at", "2020-02-22 16:28:56.696732"]]
+  [1m[35m (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBookmark Create (0.5ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "How to Draw Comics"], ["category", "Videos, podcasts, and tutorials"], ["url", "https://www.howtodrawcomics.net/"], ["img", "https://i.imgur.com/YsI8dBZ.png"], ["description", "Main focus is comics, digital & tradtionals. Focuss on tutorials and classes, some are free, some are paid."], ["created_at", "2020-02-22 16:28:56.703151"], ["updated_at", "2020-02-22 16:28:56.703151"]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:29:13 -0800
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by BookmarksController#index as HTML
+  [1m[36mBookmark Load (0.7ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 33ms (Views: 6.4ms | ActiveRecord: 9.7ms | Allocations: 6179)
+
+
+Started GET "/" for ::1 at 2020-02-22 08:36:15 -0800
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by WelcomeController#index as HTML
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.0ms | Allocations: 173)
+
+
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:36:21 -0800
+Processing by BookmarksController#index as HTML
+  [1m[36mBookmark Load (1.9ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 74ms (Views: 3.7ms | ActiveRecord: 24.1ms | Allocations: 6138)
+
+
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:39:28 -0800
+  [1m[35m (5.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (0.9ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 32ms (Views: 1.2ms | ActiveRecord: 9.0ms | Allocations: 6181)
+
+
+Started PUT "/bookmarks/5" for ::1 at 2020-02-22 08:39:33 -0800
+Processing by BookmarksController#update as HTML
+  Parameters: {"site_name"=>"How to Draw Comic", "url"=>"https://www.howtodrawcomics.net/", "category"=>"Videos, podcasts, and tutorials", "description"=>"Main focus is comics, digital & tradtionals. Focuss on tutorials and classes, some are free, some are paid.", "img"=>"https://i.imgur.com/YsI8dBZ.png", "id"=>"5", "bookmark"=>{"site_name"=>"How to Draw Comic", "category"=>"Videos, podcasts, and tutorials", "url"=>"https://www.howtodrawcomics.net/", "img"=>"https://i.imgur.com/YsI8dBZ.png", "description"=>"Main focus is comics, digital & tradtionals. Focuss on tutorials and classes, some are free, some are paid."}}
+  [1m[36mBookmark Load (0.5ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks" WHERE "bookmarks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/controllers/bookmarks_controller.rb:37:in `set_bookmark'
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+  [1m[36mBookmark Update (1.2ms)[0m  [1m[33mUPDATE "bookmarks" SET "site_name" = $1, "updated_at" = $2 WHERE "bookmarks"."id" = $3[0m  [["site_name", "How to Draw Comic"], ["updated_at", "2020-02-22 16:39:33.556329"], ["id", 5]]
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+Completed 200 OK in 35ms (Views: 0.5ms | ActiveRecord: 7.4ms | Allocations: 3549)
+
+
+Started GET "/bookmarks/" for ::1 at 2020-02-22 08:39:33 -0800
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (1.8ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 5ms (Views: 1.4ms | ActiveRecord: 1.8ms | Allocations: 1381)
+
+
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:39:35 -0800
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (1.2ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 6ms (Views: 1.5ms | ActiveRecord: 1.2ms | Allocations: 1399)
+
+
+Started PUT "/bookmarks/5" for ::1 at 2020-02-22 08:39:40 -0800
+Processing by BookmarksController#update as HTML
+  Parameters: {"site_name"=>"How to Draw Comics", "url"=>"https://www.howtodrawcomics.net/", "category"=>"Videos, podcasts, and tutorials", "description"=>"Main focus is comics, digital & tradtionals. Focuss on tutorials and classes, some are free, some are paid.", "img"=>"https://i.imgur.com/YsI8dBZ.png", "id"=>"5", "bookmark"=>{"site_name"=>"How to Draw Comics", "category"=>"Videos, podcasts, and tutorials", "url"=>"https://www.howtodrawcomics.net/", "img"=>"https://i.imgur.com/YsI8dBZ.png", "description"=>"Main focus is comics, digital & tradtionals. Focuss on tutorials and classes, some are free, some are paid."}}
+  [1m[36mBookmark Load (2.4ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks" WHERE "bookmarks"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/controllers/bookmarks_controller.rb:37:in `set_bookmark'
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+  [1m[36mBookmark Update (4.7ms)[0m  [1m[33mUPDATE "bookmarks" SET "site_name" = $1, "updated_at" = $2 WHERE "bookmarks"."id" = $3[0m  [["site_name", "How to Draw Comics"], ["updated_at", "2020-02-22 16:39:40.418614"], ["id", 5]]
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/bookmarks_controller.rb:24:in `update'
+Completed 200 OK in 26ms (Views: 1.2ms | ActiveRecord: 12.8ms | Allocations: 2959)
+
+
+Started GET "/bookmarks/" for ::1 at 2020-02-22 08:39:40 -0800
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (0.9ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 4ms (Views: 1.4ms | ActiveRecord: 0.9ms | Allocations: 1382)
+
+
+Started POST "/bookmarks" for ::1 at 2020-02-22 08:39:46 -0800
+Processing by BookmarksController#create as HTML
+  Parameters: {"site_name"=>"Class 101", "url"=>"https://en.class101.net/", "category"=>"Test Cate", "description"=>"wdwad", "img"=>"https://i.imgur.com/H3lkqT1.jpg", "bookmark"=>{"site_name"=>"Class 101", "category"=>"Test Cate", "url"=>"https://en.class101.net/", "img"=>"https://i.imgur.com/H3lkqT1.jpg", "description"=>"wdwad"}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/bookmarks_controller.rb:15:in `create'
+  [1m[36mBookmark Create (0.8ms)[0m  [1m[32mINSERT INTO "bookmarks" ("site_name", "category", "url", "img", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["site_name", "Class 101"], ["category", "Test Cate"], ["url", "https://en.class101.net/"], ["img", "https://i.imgur.com/H3lkqT1.jpg"], ["description", "wdwad"], ["created_at", "2020-02-22 16:39:46.654396"], ["updated_at", "2020-02-22 16:39:46.654396"]]
+  ↳ app/controllers/bookmarks_controller.rb:15:in `create'
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/bookmarks_controller.rb:15:in `create'
+Completed 201 Created in 13ms (Views: 1.6ms | ActiveRecord: 3.2ms | Allocations: 2564)
+
+
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:39:48 -0800
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (0.8ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 9ms (Views: 5.6ms | ActiveRecord: 0.8ms | Allocations: 1529)
+
+
+Started DELETE "/bookmarks/6" for ::1 at 2020-02-22 08:39:50 -0800
+Processing by BookmarksController#destroy as */*
+  Parameters: {"id"=>"6"}
+  [1m[36mBookmark Load (0.4ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks" WHERE "bookmarks"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/bookmarks_controller.rb:37:in `set_bookmark'
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/bookmarks_controller.rb:30:in `destroy'
+  [1m[36mBookmark Destroy (0.9ms)[0m  [1m[31mDELETE FROM "bookmarks" WHERE "bookmarks"."id" = $1[0m  [["id", 6]]
+  ↳ app/controllers/bookmarks_controller.rb:30:in `destroy'
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/bookmarks_controller.rb:30:in `destroy'
+Completed 204 No Content in 35ms (Views: 0.2ms | ActiveRecord: 4.4ms | Allocations: 2224)
+
+
+Started GET "/bookmarks" for ::1 at 2020-02-22 08:39:52 -0800
+Processing by BookmarksController#index as */*
+  [1m[36mBookmark Load (3.7ms)[0m  [1m[34mSELECT "bookmarks".* FROM "bookmarks"[0m
+  ↳ app/controllers/bookmarks_controller.rb:6:in `index'
+Completed 200 OK in 6ms (Views: 1.2ms | ActiveRecord: 3.7ms | Allocations: 1381)
+
+

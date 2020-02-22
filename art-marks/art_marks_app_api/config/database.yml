@@ -14,25 +14,22 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-# default: &default
-#   adapter: postgresql
-#   encoding: unicode
+default: &default
+  adapter: postgresql
+  encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  # <<: *default
-  adapter: postgresql
-  database: art_marks_app_api_development
-    pool: 5
-  timeout: 5000
+  <<: *default
+  database: artmark_app_api_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: art_marks_app_api
+  #username: artmark_app_api
 
   # The password associated with the postgres role (username).
   #password:
@@ -59,11 +56,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
- adapter: postgresql
-  # <<: *default
-  database: art_marks_app_api_test
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: artmark_app_api_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -86,10 +80,6 @@ test:
 #
 production:
   <<: *default
-   adapter: postgresql
-   database: my_database_production
-  pool: 5
-  timeout: 5000
-  # database: art_marks_app_api_production
-  # username: art_marks_app_api
-  # password: <%= ENV['ART_MARKS_APP_API_DATABASE_PASSWORD'] %>
+  database: artmark_app_api_production
+  username: artmark_app_api
+  password: <%= ENV['ARTMARK_APP_API_DATABASE_PASSWORD'] %>
